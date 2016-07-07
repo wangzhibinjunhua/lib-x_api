@@ -31,6 +31,7 @@ class PhalApi_Response_JsonP extends PhalApi_Response {
     }
 
     protected function formatResult($result) {
-        echo $this->callback . '(' . json_encode($result) . ')';
+        //echo $this->callback . '(' . json_encode($result) . ')';
+        echo $this->callback . '(' . json_encode($result,JSON_UNESCAPED_UNICODE) . ')'; //modify by wzb 20160707
     }
 }

@@ -13,9 +13,10 @@ class PhalApi_Response_Json extends PhalApi_Response {
     public function __construct() {
     	$this->addHeaders('Content-Type', 'application/json;charset=utf-8');
     }
-    
+
     protected function formatResult($result) {
-        return json_encode($result);
+        //return json_encode($result);
+        return json_encode($result,JSON_UNESCAPED_UNICODE);//modify by wzb 20160707
     }
-    
+
 }
