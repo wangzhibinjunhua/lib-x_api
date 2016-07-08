@@ -84,7 +84,7 @@ abstract class PhalApi_Model_NotORM implements PhalApi_Model {
      * - 考虑到配置中的表主键不一定是id，所以这里将默认自动装配数据库配置并匹配对应的主键名
      * - 如果不希望因自动匹配所带来的性能问题，可以在每个实现子类手工返回对应的主键名
      * - 注意分表的情况
-     * 
+     *
      * @param string $table 表名/分表名
      * @return string 主键名
      */
@@ -92,7 +92,7 @@ abstract class PhalApi_Model_NotORM implements PhalApi_Model {
         if (empty(self::$tableKeys)) {
             $this->loadTableKeys();
         }
-
+        DI()->logger->debug('wzb', isset(self::$tableKeys[$table]) ? self::$tableKeys[$table] : self::$tableKeys['__default__']);
         return isset(self::$tableKeys[$table]) ? self::$tableKeys[$table] : self::$tableKeys['__default__'];
     }
 
@@ -103,6 +103,7 @@ abstract class PhalApi_Model_NotORM implements PhalApi_Model {
      */
     protected function getORM($id = NULL) {
         $table = $this->getTableName($id);
+        DI()->logger->debug('wzb','table:'.$table);
         return DI()->notorm->$table;
     }
 

@@ -8,11 +8,13 @@ return array(
      * DB数据库服务器集群
      */
     'servers' => array(
-        'db_lib-x' => array(                         //服务器标记
+
+        //gsm bpbp db
+        'db_lib-x_health' => array(                         //服务器标记
             'host'      => 'localhost',             //数据库域名
-            'name'      => 'lib-x_api',               //数据库名字
+            'name'      => 'health',               //数据库名字
             'user'      => 'root',                  //数据库用户名
-            'password'  => 'huayingtekmysql',	                    //数据库密码
+            'password'  => 'huayingtekmysql',                       //数据库密码
             'port'      => '3306',                  //数据库端口
             'charset'   => 'UTF8',                  //数据库字符集
         ),
@@ -24,12 +26,13 @@ return array(
     'tables' => array(
         //通用路由
         '__default__' => array(
-            'prefix' => 'lib-x_',
+            'prefix' => 'gsm_',
             'key' => 'id',
             'map' => array(
-                array('db' => 'db_lib-x'),
+                array('db' => 'db_lib-x_health'),
             ),
         ),
+
 
         /**
         'demo' => array(                                                //表名
