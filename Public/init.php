@@ -27,7 +27,9 @@ DI()->debug = !empty($_GET['__debug__']) ? true : DI()->config->get('sys.debug')
 DI()->logger = new PhalApi_Logger_File(API_ROOT . '/Runtime', PhalApi_Logger::LOG_LEVEL_DEBUG | PhalApi_Logger::LOG_LEVEL_INFO | PhalApi_Logger::LOG_LEVEL_ERROR);
 
 //数据操作 - 基于NotORM，$_GET['__sql__']可自行改名
-DI()->notorm = new PhalApi_DB_NotORM(DI()->config->get('dbs'), !empty($_GET['__sql__']));
+
+//dbs -> dbs_p 启用受保护的db配置文件
+DI()->notorm = new PhalApi_DB_NotORM(DI()->config->get('dbs_p'), !empty($_GET['__sql__']));
 
 //翻译语言包设定
 SL('zh_cn');

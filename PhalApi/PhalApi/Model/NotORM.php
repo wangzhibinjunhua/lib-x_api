@@ -92,7 +92,6 @@ abstract class PhalApi_Model_NotORM implements PhalApi_Model {
         if (empty(self::$tableKeys)) {
             $this->loadTableKeys();
         }
-        DI()->logger->debug('wzb', isset(self::$tableKeys[$table]) ? self::$tableKeys[$table] : self::$tableKeys['__default__']);
         return isset(self::$tableKeys[$table]) ? self::$tableKeys[$table] : self::$tableKeys['__default__'];
     }
 
@@ -103,12 +102,12 @@ abstract class PhalApi_Model_NotORM implements PhalApi_Model {
      */
     protected function getORM($id = NULL) {
         $table = $this->getTableName($id);
-        DI()->logger->debug('wzb','table:'.$table);
+        //DI()->logger->debug('wzb','table:'.$table);
         return DI()->notorm->$table;
     }
 
     protected function loadTableKeys() {
-        $tables = DI()->config->get('dbs.tables');
+        $tables = DI()->config->get('dbs_p.tables');
         if (empty($tables)) {
             throw new PhalApi_Exception_InternalServerError(T('dbs.tables should not be empty'));
         }
