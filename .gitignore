@@ -1,4 +1,5 @@
-
+./Config/dbs_p.php
+Config/dbs_p.php
 .settings
 .settings/*
 .buildpath
