@@ -29,7 +29,9 @@ DI()->logger = new PhalApi_Logger_File(API_ROOT . '/Runtime', PhalApi_Logger::LO
 //数据操作 - 基于NotORM，$_GET['__sql__']可自行改名
 
 //dbs -> dbs_p 启用受保护的db配置文件
-DI()->notorm = new PhalApi_DB_NotORM(DI()->config->get('dbs_p'), !empty($_GET['__sql__']));
+DI()->notorm = new PhalApi_DB_NotORM(DI()->config->get('dbs_p'), !empty($_GET['__sql__'])); //默认数据库health
+
+DI()->android_push = new PhalApi_DB_NotORM(DI()->config->get('dbs_p_android_push'), !empty($_GET['__sql__'])); //新增数据库android_push
 
 //翻译语言包设定
 SL('zh_cn');
