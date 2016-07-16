@@ -1,5 +1,5 @@
 <?php
-class Model_Welcome extends PhalApi_Model_NotORM
+class Model_GetBpGsm extends PhalApi_Model_NotORM
 {
 
 	public function get_all()

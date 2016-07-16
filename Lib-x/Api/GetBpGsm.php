@@ -3,7 +3,7 @@
 /**
 *author wzb<wzb@lib-x.com>
 */
-class Api_Welcome extends PhalApi_Api
+class Api_GetBpGsm extends PhalApi_Api
 {
 
 	public function getRules()
@@ -34,7 +34,7 @@ class Api_Welcome extends PhalApi_Api
 	{
 
 		$rs=array('code'=> 0,'value'=>array(),'info'=>'');
-		$domain=new Domain_Welcome();
+		$domain=new Domain_GetBpGsm();
 		$bg=$domain->get_all();
 
 		if(empty($bg)){
