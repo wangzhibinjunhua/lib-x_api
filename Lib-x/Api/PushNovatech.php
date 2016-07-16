@@ -11,7 +11,7 @@ class Api_PushNovatech extends PhalApi_Api
 
 		return array(
 			'polling'=>array(
-				'push_id'=>array('name' =>'id' ,'type' => 'int', 'min' => 1,'require'=>true),
+				'push_id'=>array('name' =>'id' ,'type' => 'int', 'min' => 0,'require'=>true),
 				),
 			);
 	}
