@@ -11,7 +11,7 @@ class Api_PushNovatech extends PhalApi_Api
 
 		return array(
 			'polling'=>array(
-				'id'=>array('name' =>'id' ,'require'=>true),
+				'push_id'=>array('name' =>'id' ,'type' => 'int', 'min' => 1,'require'=>true),
 				),
 			);
 	}
@@ -21,15 +21,15 @@ class Api_PushNovatech extends PhalApi_Api
 
 		$rs=array('code'=> 0,'message'=>array(),'info'=>'');
 		$domain=new Domain_PushNovatech();
-		$bg=$domain->polling();
+		$poll=$domain->polling($this->push_id);
 
-		if(empty($bg)){
+		if(empty($poll)){
 			//$rs['info']="no data";
 			//return $rs;
 			return null;
 		}
 
-		$rs['message']=$bg;
+		$rs['message']=$poll;
 
 		return $rs;
 	}

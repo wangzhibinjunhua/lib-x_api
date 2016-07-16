@@ -2,10 +2,11 @@
 
 class Domain_PushNovatech
 {
-	public function polling()
+	public function polling($id)
 	{
 		$model=new Model_PushNovatech();
-		$rs=$model->polling();
+		$id=intval($id);
+		$rs=$model->polling($id);
 		return $rs;
 	}
 
