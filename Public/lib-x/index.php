@@ -10,7 +10,7 @@ DI()->loader->addDirs('Lib-x');
 
 //注册一些服务
 
-DI()->filter = 'Common_LibxFilter';
+//DI()->filter = 'Common_LibxFilter';
 /** ---------------- 响应接口请求 ---------------- **/
 
 $api = new PhalApi();

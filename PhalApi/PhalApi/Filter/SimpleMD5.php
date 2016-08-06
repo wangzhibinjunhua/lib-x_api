@@ -16,6 +16,12 @@
  * @link        http://www.phalapi.net/
  * @author      dogstar <chanzonghuang@gmail.com> 2015-10-23
  */
+/**
+ * http://lib.huayinghealth.com/lib-x/?service=welcome.hello&a=2
+ * 参数排序然后拼接字符串为2welcome.hello
+ * 然后计算md5 32位小写
+ * 即为sign参数
+ */
 
 class PhalApi_Filter_SimpleMD5 implements PhalApi_Filter {
 
