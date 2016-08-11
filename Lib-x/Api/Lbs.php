@@ -11,8 +11,9 @@ class Api_Lbs extends PhalApi_Api
 
 		return array(
 			'data'=>array(
-				'cl'=>array('name' =>'cl' ,'type' => 'string', 'require'=>false),
-				'wl'=>array('name' =>'wl' ,'type' => 'string', 'require'=>false),
+				'bts'=>array('name' =>'bts' ,'type' => 'string', 'require'=>true),
+				'nearbts'=>array('name' =>'nearbts' ,'type' => 'string', 'require'=>false),
+				'macs'=>array('name' =>'macs' ,'type' => 'string', 'require'=>false),
 				),
 			);
 	}
@@ -21,7 +22,7 @@ class Api_Lbs extends PhalApi_Api
 		//$rs=array('code'=> 0,'lat'=>'','lon'=>'','radius'=>'','address'=>'');
 		//$url='cl='.$this->cl.'&wl='.$this->wl;
 		$domain=new Domain_Lbs();
-		$data=$domain->get_data($this->cl,$this->wl);
+		$data=$domain->get_data($this->bts,$this->nearbts,$this->macs);
 		if(empty($data)){
 			return null;
 		}

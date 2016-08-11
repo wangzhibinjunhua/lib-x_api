@@ -2,10 +2,12 @@
 class Model_Lbs extends PhalApi_Model_NotORM
 {
 
-	public function get_data($cl,$wl)
+	public function get_data($params)
 	{
 
-		$url='http://api.cellocation.com/loc/?'.'cl='.$cl.'&wl='.$wl.'$output=json';
+		//高德基站定位
+		$url='http://apilocate.amap.com/position?'.$params;
+		//var_export($url);
 		$client = Common_HttpClient::create()
         ->withHost($url);
         $rs = $client->reset()
@@ -13,6 +15,27 @@ class Model_Lbs extends PhalApi_Model_NotORM
 	    ->request();
 
 	    return $rs;
+
+	}
+
+	//基站wifi混合定位
+	public function bs_wifi()
+	{
+
+	}
+
+
+	//基站定位
+	public function bs()
+	{
+
+
+	}
+
+	//wifi定位
+	public function wifi()
+	{
+
 
 	}
 
