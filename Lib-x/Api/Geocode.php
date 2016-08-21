@@ -43,6 +43,10 @@ class Api_Geocode extends PhalApi_Api
 			return null;
 		}
 		$rs=json_decode($data,true);
+		//查询错误
+		if($rs['status'] != 1){
+			return null;
+		}
 		return $rs;
 	}
 	
