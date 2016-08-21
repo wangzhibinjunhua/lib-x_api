@@ -24,7 +24,13 @@ class Api_Weather extends PhalApi_Api
 		if(empty($data)){
 			return null;
 		}
+
 		$rs=json_decode($data,true);
+	
+		//无查询结果
+		if($rs['error_code'] != 0){
+			return null;
+		}
 		return $rs;
 	}
 	
