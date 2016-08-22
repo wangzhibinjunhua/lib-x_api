@@ -27,6 +27,9 @@ class Api_Lbs extends PhalApi_Api
 			return null;
 		}
 		$rs=json_decode($data,true);
+		if($rs['status'] != 1){
+			return null;
+		}
 		return $rs;
 	}
 
