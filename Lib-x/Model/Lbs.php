@@ -8,12 +8,8 @@ class Model_Lbs extends PhalApi_Model_NotORM
 		//高德基站定位
 		$url='http://apilocate.amap.com/position?'.$params;
 		//var_export($url);
-		$client = Common_HttpClient::create()
-        ->withHost($url);
-        $rs = $client->reset()
-	    ->withTimeout(3000)
-	    ->request();
-
+		$curl=new PhalApi_CUrl();
+		$rs=$curl->get($url);
 	    return $rs;
 
 	}
