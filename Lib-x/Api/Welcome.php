@@ -3,9 +3,10 @@
 /**
 *author wzb<wzb@lib-x.com>
 */
+DI()->filter = 'Common_LibxFilter';
 class Api_Welcome extends PhalApi_Api
 {
-
+	
 	public function getRules()
 	{
 
@@ -23,6 +24,7 @@ class Api_Welcome extends PhalApi_Api
 
 	public function hello()
 	{
+		
 		$rs=array();
 		$rs['a']=$this->a;
 		$rs['b']=$this->b;
