@@ -150,7 +150,10 @@ class NotORM_Result extends NotORM_Abstract implements Iterator, ArrayAccess, Co
         return $return;
     }
 
-    protected function query($query, $parameters){
+    /**
+     * 放开限制 protected -> public @scott 反馈
+     */
+    public function query($query, $parameters){
         $debugTrace = array();
 
         self::$queryTimes++;
@@ -308,7 +311,7 @@ class NotORM_Result extends NotORM_Abstract implements Iterator, ArrayAccess, Co
             }
             //! driver specific extended insert
             $insert = ($data || $this->notORM->driver == "mysql"
-                ? "(" . implode(", ", array_keys($data)) . ") VALUES " . implode(", ", $values) : "DEFAULT VALUES");
+                ? "(`" . implode("`, `", array_keys($data)) . "`) VALUES " . implode(", ", $values) : "DEFAULT VALUES");
         }
         // requires empty $this->parameters
         $return = $this->query("INSERT INTO $this->table $insert", $parameters);
@@ -335,6 +338,16 @@ class NotORM_Result extends NotORM_Abstract implements Iterator, ArrayAccess, Co
         if(!is_array($data)){
             return $return;
         }
+
+        // #56 postgresql无法获取新增数据的主键ID @ clov4r-连友 20160720
+        if ($this->notORM->driver == "pgsql") {
+            if (!isset($data[$this->primary])) {
+                $rs = $this->query("SELECT LASTVAL() AS id", $this->parameters)->fetch();
+                $data[$this->primary] = $rs['id'];
+                $this->sequence = $rs['id'];
+            }
+        }
+
         if(!isset($data[$this->primary]) && ($id = $this->notORM->connection->lastInsertId($this->notORM->structure->getSequence($this->table)))){
             $data[$this->primary] = $id;
         }
@@ -702,11 +715,7 @@ class NotORM_Result extends NotORM_Abstract implements Iterator, ArrayAccess, Co
      *
      * @return int
      */
-    function count($column = ""){
-        if(!$column){
-            $this->execute();
-            return count($this->data);
-        }
+    function count($column = "*"){
         return $this->aggregation("COUNT($column)");
     }
 
