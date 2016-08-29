@@ -25,6 +25,8 @@ class Api_Welcome extends PhalApi_Api
 	public function hello()
 	{
 		
+		Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+		Common_GatewayClient::sendToUid('201508220451111', '123aaa');
 		$rs=array();
 		$rs['a']=$this->a;
 		$rs['b']=$this->b;
