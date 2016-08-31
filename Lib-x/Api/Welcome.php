@@ -3,17 +3,17 @@
 /**
 *author wzb<wzb@lib-x.com>
 */
-DI()->filter = 'Common_LibxFilter';
+
 class Api_Welcome extends PhalApi_Api
 {
 	
 	public function getRules()
 	{
-
+		DI()->filter = 'Common_LibxFilter';
 		return array(
 			'hello'=>array(
 				'a'=>array('name' =>'a' ,'require'=>true),
-				'b'=>array('name' => 'b'),
+				'b'=>array('name' => 'b','type'=>'date'),
 				),
 			'get_bp'=>array(
 				'a'=>array('name' =>'a' ,'require'=>true),

@@ -32,6 +32,7 @@ DI()->logger = new PhalApi_Logger_File(API_ROOT . '/Runtime', PhalApi_Logger::LO
 DI()->notorm = new PhalApi_DB_NotORM(DI()->config->get('dbs_p'), !empty($_GET['__sql__'])); //默认数据库health
 
 DI()->android_push = new PhalApi_DB_NotORM(DI()->config->get('dbs_p_android_push'), !empty($_GET['__sql__'])); //新增数据库android_push
+DI()->watch = new PhalApi_DB_NotORM(DI()->config->get('dbs_p_watch'), !empty($_GET['__sql__'])); //新增数据库watch
 
 //翻译语言包设定
 SL('zh_cn');
