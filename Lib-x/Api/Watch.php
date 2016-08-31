@@ -35,10 +35,11 @@ class Api_Watch extends PhalApi_Api
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		//检验间隔时间合法
 		if($this->upmode== '1' || $this->upmode== '10' || $this->upmode== '60'){
-			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			
 			if(Common_GatewayClient::isUidOnline($this->imei)){
 				$data='CS*'.$imei.'UPLOAD,'.$this->upmode;
-				Common_GatewayClient::sendToUid($imei, Common_GatewayPack::pack_data($data));
+				Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+				Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 				$rs['code']=0;
 			}else{
 				$rs['code']=1;
