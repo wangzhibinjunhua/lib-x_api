@@ -27,7 +27,7 @@ class Api_Watch extends PhalApi_Api
 	* @date Aug 31, 2016 3:42:40 PM
 	* 获取手表在线状态
 	*/
-	public function isOnline()
+	public function is_online()
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
