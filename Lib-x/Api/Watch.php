@@ -15,14 +15,35 @@ class Api_Watch extends PhalApi_Api
 				'*'=>array(
 						'imei'=>array('name'=>'imei','min'=>15,'max'=>15,'require'=>true),
 				),
-				'hello'=>array(
-						'a'=>array('name' =>'a' ,'require'=>true),
-						'b'=>array('name' => 'b','type'=>'date'),
+				'get_day_location'=>array(
+						'date'=>array('name' =>'date' ,'type'=>'date','require'=>true),
 				),
 		);
 
 	}
 	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Aug 31, 2016 3:02:32 PM
+	* 获取某一天的所有定位坐标
+	*/
+	public function get_day_location()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		//检验日期数据是否合法
+		if(strtotime( date('Y-m-d', strtotime($this->date)) ) === strtotime( $this->date)){
+			$model=new Model_Watch();
+			$day_location=$model->get_day_location($this->imei,$this->date);
+			if(empty($day_location)){
+				$rs['code']=1;
+			}else{
+				$rs['message']=$day_location;
+			}
+		}else{
+			$rs['code']=2;
+		}
+		return $rs;
+	}
 	
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
@@ -31,7 +52,7 @@ class Api_Watch extends PhalApi_Api
 	*/
 	public function get_lastest_location(){
 		
-		$rs=array('code'=> 0,'message'=>array(),'info'=>'');
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$domain=new Domain_Watch();
 		$lastest_location=$domain->get_lastest_location($this->imei);
 		
