@@ -24,6 +24,24 @@ class Api_Watch extends PhalApi_Api
 	
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Aug 31, 2016 3:42:40 PM
+	* 获取手表在线状态
+	*/
+	public function isOnline()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$rs['message']=1;
+		}else{
+			$rs['message']=0;
+		}
+		return $rs;
+	}
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Aug 31, 2016 3:02:32 PM
 	* 获取某一天的所有定位坐标
 	*/
