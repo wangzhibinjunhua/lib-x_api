@@ -18,8 +18,36 @@ class Api_Watch extends PhalApi_Api
 				'get_day_location'=>array(
 						'date'=>array('name' =>'date' ,'type'=>'date','require'=>true),
 				),
+				'set_upload_mode'=>array(
+						'upmode'=>array('name' =>'upmode','require'=>true),
+				),
 		);
 
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Aug 31, 2016 3:56:45 PM
+	* 设置数据上传间隔(定位模式1分钟,10分钟,1个小时)
+	*/
+	public function set_upload_mode()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		//检验间隔时间合法
+		if($this->upmode== '1' || $this->upmode== '10' || $this->upmode== '60'){
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			if(Common_GatewayClient::isUidOnline($this->imei)){
+				$data='CS*'.$imei.'UPLOAD,'.$this->upload;
+				Common_GatewayClient::sendToUid($imei, Common_GatewayPack::pack_data($data));
+				$rs['code']=0;
+			}else{
+				$rs['code']=1;
+			}
+			
+		}else{
+			$rs['code']=2;
+		}
+		return $rs;
 	}
 	
 	/**
