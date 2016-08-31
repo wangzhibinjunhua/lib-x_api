@@ -37,7 +37,7 @@ class Api_Watch extends PhalApi_Api
 		if($this->upmode== '1' || $this->upmode== '10' || $this->upmode== '60'){
 			
 			if(Common_GatewayClient::isUidOnline($this->imei)){
-				$data='CS*'.$imei.'UPLOAD,'.$this->upmode;
+				$data='CS*'.$this->imei.'UPLOAD,'.$this->upmode;
 				Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 				Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 				$rs['code']=0;
