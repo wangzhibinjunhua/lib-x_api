@@ -21,8 +21,307 @@ class Api_Watch extends PhalApi_Api
 				'set_upload_mode'=>array(
 						'upmode'=>array('name' =>'upmode','require'=>true),
 				),
+				'monitor'=>array(
+						'phonenumber'=>array('name' =>'phonenumber','require'=>true),
+				),
+				'set_sos_number'=>array(
+						'sos'=>array('name' =>'sos','require'=>true),
+				),
+				'set_alarm'=>array(
+						'alarm'=>array('name' =>'alarm','require'=>true),
+				),
+				'set_contact_a'=>array(
+						'contacta'=>array('name' =>'contacta','require'=>true),
+				),
+				'set_contact_b'=>array(
+						'contactb'=>array('name' =>'contactb','require'=>true),
+				),
+				'send_msg'=>array(
+						'message'=>array('name' =>'message','require'=>true),
+				),
+				'set_silence'=>array(
+						'silence'=>array('name' =>'silence','require'=>true),
+				),
+				
 		);
 
+	}
+	
+	
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 2:26:36 PM
+	* 设置免打扰时间段
+	* silence 时间段,时间段2,时间段3.以,隔开,最多三组
+	* 21:10-07:30,09:00-12:00
+	*/
+	public function set_silence()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*SILENCETIME,'.$this->silence;
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+		
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 2:24:18 PM
+	* 清除小红花
+	*/
+	public function clear_honor()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*HONOR,0';
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 2:23:21 PM
+	* 增加小红花
+	*/
+	public function add_honor()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*HONOR,1';
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 2:17:34 PM
+	* 发送文本消息 
+	* message 为unicode码
+	*/
+	public function send_msg()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*MESSAGE,'.$this->message;
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 2:12:35 PM
+	* 设置电话本后五个
+	* contact参数为 联系人,号码,联系人2,号码2.
+	* 联系人为unicode码,号码为数字
+	*/
+	public function set_contact_b()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*PHB2,'.$this->contactb;
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 1:59:31 PM
+	* 设置电话本前五个
+	*/
+	public function set_contact_a()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*PHB,'.$this->contacta;
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 1:54:21 PM
+	* 设置闹钟
+	*/
+	public function set_alarm()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*REMIND,'.$this->alarm;
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 1:50:37 PM
+	* 找手表指令
+	*/
+	public function find_dev()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*FIND';
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+		
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 1:49:26 PM
+	* 关机指令
+	*/
+	public function shutdown()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*POWEROFF';
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 1:44:54 PM
+	* 请求定位
+	*/
+	public function req_location()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*CR';
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 1:43:16 PM
+	* 重启设备
+	*/
+	public function reboot()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*RESET';
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 1, 2016 1:38:50 PM
+	* 恢复出厂设置
+	*/
+	public function reset()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*FACTORY';
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Aug 31, 2016 6:00:15 PM
+	* 设置sos号码
+	*/
+	public function set_sos_number()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*SOS,'.$this->sos;
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Aug 31, 2016 5:54:01 PM
+	* 监听
+	*/
+	public function monitor()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*MONITOR,'.$this->phonenumber;
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
 	}
 	
 	/**
