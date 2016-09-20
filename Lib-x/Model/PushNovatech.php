@@ -5,13 +5,10 @@ class Model_PushNovatech extends PhalApi_Model_NotORM
 	public function polling($id)
 	{
 
-		$sql='select * from push_novatech where id > '.$id.' order by id desc limit 0 ,1';
-		//DI()->logger->debug("wzb","model:".$sql);
+		$sql='select * from push_novatech where id > :id order by id desc limit 0 ,1';
+		$params=array(':id'=> $id);
 		return $this->getORM('android_push')
-			->queryAll($sql);
-		//return $this->getORM()
-			//->select('*')
-			//->fetchAll();
+			->queryAll($sql,$params);
 
 	}
 
