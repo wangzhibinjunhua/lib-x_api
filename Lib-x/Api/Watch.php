@@ -59,23 +59,24 @@ class Api_Watch extends PhalApi_Api
 		);
 
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 22, 2016 4:59:20 PM
 	* 解绑手表
 	*/
-	
+
 	public function unbind_watch()
 	{
 		$model=new Model_Watch();
 		$list=$model->unbind_watch($this->imei,$this->user_id);
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
-		$rs['message']=$list;
+		if(empty($list)) $rs['code']=1;
+
 		return $rs;
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 22, 2016 4:50:55 PM
@@ -86,10 +87,10 @@ class Api_Watch extends PhalApi_Api
 		$model=new Model_Watch();
 		$list=$model->bind_watch($this->imei,$this->user_id);
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
-		$rs['message']=$list;
+		if(empty($list)) $rs['code']=1;
 		return $rs;
 	}
-	
+
 
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
