@@ -10,7 +10,7 @@ class Api_Watch extends PhalApi_Api
 	public function getRules()
 	{
 		return array(
-				
+
 				//通用接口
 				'*'=>array(
 						'imei'=>array('name'=>'imei','min'=>15,'max'=>15,'require'=>true),
@@ -45,11 +45,11 @@ class Api_Watch extends PhalApi_Api
 				'get_new_message_list'=>array(
 						'user_id'=>array('name' =>'user_id','require'=>true),
 				),
-				
+
 		);
 
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 22, 2016 11:38:25 AM
@@ -58,7 +58,7 @@ class Api_Watch extends PhalApi_Api
 	public function get_new_message_list()
 	{
 		$model=new Model_Watch();
-		$list=$model->get_new_message_list($this->user_id);
+		$list=$model->get_new_message_list($this->imei,$this->user_id);
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(empty($list)){
 			$rs['code']=1;
@@ -67,8 +67,8 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 2:26:36 PM
@@ -88,9 +88,9 @@ class Api_Watch extends PhalApi_Api
 			$rs['code']=1;
 		}
 		return $rs;
-		
+
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 2:24:18 PM
@@ -109,7 +109,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 2:23:21 PM
@@ -128,11 +128,11 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 2:17:34 PM
-	* 发送文本消息 
+	* 发送文本消息
 	* message 为unicode码
 	*/
 	public function send_msg()
@@ -148,7 +148,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 2:12:35 PM
@@ -169,7 +169,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 1:59:31 PM
@@ -188,7 +188,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 1:54:21 PM
@@ -207,7 +207,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 1:50:37 PM
@@ -225,9 +225,9 @@ class Api_Watch extends PhalApi_Api
 			$rs['code']=1;
 		}
 		return $rs;
-		
+
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 1:49:26 PM
@@ -246,8 +246,8 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 1:44:54 PM
@@ -266,7 +266,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 1:43:16 PM
@@ -285,7 +285,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 1, 2016 1:38:50 PM
@@ -304,7 +304,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Aug 31, 2016 6:00:15 PM
@@ -323,7 +323,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Aug 31, 2016 5:54:01 PM
@@ -342,7 +342,7 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Aug 31, 2016 3:56:45 PM
@@ -353,7 +353,7 @@ class Api_Watch extends PhalApi_Api
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		//检验间隔时间合法
 		if($this->upmode== '1' || $this->upmode== '10' || $this->upmode== '60'){
-			
+
 			if(Common_GatewayClient::isUidOnline($this->imei)){
 				$data='CS*'.$this->imei.'*UPLOAD,'.$this->upmode;
 				Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
@@ -362,13 +362,13 @@ class Api_Watch extends PhalApi_Api
 			}else{
 				$rs['code']=1;
 			}
-			
+
 		}else{
 			$rs['code']=2;
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Aug 31, 2016 3:42:40 PM
@@ -385,8 +385,8 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Aug 31, 2016 3:02:32 PM
@@ -409,18 +409,18 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Aug 31, 2016 11:23:25 AM
 	* 获取最新的一次定位位置
 	*/
 	public function get_lastest_location(){
-		
+
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$domain=new Domain_Watch();
 		$lastest_location=$domain->get_lastest_location($this->imei);
-		
+
 		if(empty($lastest_location))
 		{
 			$rs['code']=1;
@@ -430,6 +430,6 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
-	
+
+
 }
