@@ -25,11 +25,11 @@ class Model_Watch extends PhalApi_Model_NotORM
 		return $this->getORM('watch')
 		->queryAll($sql,$params);
 	}
-	
+
 	public function ignore_message($imei,$user_id,$filename)
 	{
-		$sql='update watch_message set flag=1 where imei=:imei and user_id=:user_id and filename=:filename';
-		$params=array(':imei'=>$imei,':user_id'=>$user_id,'filename'=>$filename);
+		$sql='update watch_message set flag=:flag where imei=:imei and user_id=:user_id and file=:filename';
+		$params=array(':flag'=>'1',':imei'=>$imei,':user_id'=>$user_id,':filename'=>$filename);
 		return $this->getORM('watch')
 		->queryAll($sql,$params);
 	}

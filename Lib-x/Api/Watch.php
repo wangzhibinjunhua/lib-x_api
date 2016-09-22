@@ -53,8 +53,8 @@ class Api_Watch extends PhalApi_Api
 		);
 
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Sep 22, 2016 2:49:41 PM
@@ -65,10 +65,6 @@ class Api_Watch extends PhalApi_Api
 		$model=new Model_Watch();
 		$list=$model->ignore_message($this->imei,$this->user_id,$this->filename);
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
-		if(empty($list)){
-			$rs['code']=1;
-		}
-		
 		return $rs;
 	}
 
