@@ -33,6 +33,22 @@ class Model_Watch extends PhalApi_Model_NotORM
 		return $this->getORM('watch')
 		->queryAll($sql,$params);
 	}
+	
+	public function bind_watch($imei,$user_id)
+	{
+		$sql='insert into watch_app_watch (watch_imei,app_id) values (:imei,:id)';
+		$params=array(':imei'=>$imei,':id'=>$user_id);
+		return $this->getORM('watch')
+		->queryAll($sql,$params);
+	}
+	
+	public function unbind_watch($imei,$user_id)
+	{
+		$sql='delete from watch_app_watch where watch_imei=:imei and app_id=:id';
+		$params=array(':imei'=>$imei,':id'=>$user_id);
+		return $this->getORM('watch')
+		->queryAll($sql,$params);
+	}
 
 	protected function getTableName($id)
 	{

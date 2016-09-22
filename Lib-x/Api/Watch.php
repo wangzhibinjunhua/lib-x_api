@@ -49,11 +49,47 @@ class Api_Watch extends PhalApi_Api
 						'user_id'=>array('name' =>'user_id','require'=>true),
 						'filename'=>array('name' =>'filename','require'=>true),
 				),
+				'bind_watch'=>array(
+						'user_id'=>array('name' =>'user_id','require'=>true),
+				),
+				'unbind_watch'=>array(
+						'user_id'=>array('name' =>'user_id','require'=>true),
+				),
 
 		);
 
 	}
-
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 22, 2016 4:59:20 PM
+	* 解绑手表
+	*/
+	
+	public function unbind_watch()
+	{
+		$model=new Model_Watch();
+		$list=$model->unbind_watch($this->imei,$this->user_id);
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$rs['message']=$list;
+		return $rs;
+	}
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 22, 2016 4:50:55 PM
+	* 绑定手表
+	*/
+	public function bind_watch()
+	{
+		$model=new Model_Watch();
+		$list=$model->bind_watch($this->imei,$this->user_id);
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$rs['message']=$list;
+		return $rs;
+	}
+	
 
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
