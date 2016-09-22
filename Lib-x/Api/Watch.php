@@ -42,12 +42,31 @@ class Api_Watch extends PhalApi_Api
 				'set_silence'=>array(
 						'silence'=>array('name' =>'silence','require'=>true),
 				),
+				'get_new_message_list'=>array(
+						'user_id'=>array('name' =>'user_id','require'=>true),
+				),
 				
 		);
 
 	}
 	
-	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Sep 22, 2016 11:38:25 AM
+	* 获取新消息列表
+	*/
+	public function get_new_message_list()
+	{
+		$model=new Model_Watch();
+		$list=$model->get_new_message_list($this->user_id);
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(empty($list)){
+			$rs['code']=1;
+		}else{
+			$rs['message']=$list;
+		}
+		return $rs;
+	}
 	
 	
 	/**

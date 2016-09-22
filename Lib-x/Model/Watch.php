@@ -17,6 +17,14 @@ class Model_Watch extends PhalApi_Model_NotORM
 		return $this->getORM('watch')
 		->queryAll($sql,$params);
 	}
+	
+	public function get_new_message_list($user_id)
+	{
+		$sql='select stamp from watch_message where flag=0 and user_id=:user_id';
+		$params=array(':user_id'=>$user_id);
+		return $this->getORM('watch')
+		->queryAll($sql,$params);
+	}
 
 	protected function getTableName($id)
 	{
