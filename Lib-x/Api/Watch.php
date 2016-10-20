@@ -122,7 +122,26 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Oct 20, 2016 3:26:34 PM
+	* 控制手表拍照并上传服务器
+	*/
+	
+	public function remote_photo()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		if(Common_GatewayClient::isUidOnline($this->imei)){
+			$data='CS*'.$this->imei.'*PHOTO';
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
+			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
+			$rs['code']=0;
+		}else{
+			$rs['code']=1;
+		}
+		return $rs;
+	}
 
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
