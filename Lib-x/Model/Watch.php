@@ -12,7 +12,7 @@ class Model_Watch extends PhalApi_Model_NotORM
 
 	public function get_day_location($imei,$date)
 	{
-		$sql='select location_lon,location_lat from watch_info where imei = :imei and date(watch_time) = :datetime';
+		$sql='select location_type,location_lon,location_lat from watch_info where imei = :imei and date(watch_time) = :datetime';
 		$params=array(':imei'=> $imei,':datetime'=> $date);
 		return $this->getORM('watch')
 		->queryAll($sql,$params);
