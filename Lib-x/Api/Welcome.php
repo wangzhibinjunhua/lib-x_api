@@ -3,13 +3,15 @@
 /**
 *author wzb<wzb@lib-x.com>
 */
-
+//sign
+DI()->filter = 'PhalApi_Filter_SimpleMD5';
+//###########################
 class Api_Welcome extends PhalApi_Api
 {
-	
+
 	public function getRules()
 	{
-		DI()->filter = 'Common_LibxFilter';
+		//DI()->filter = 'Common_LibxFilter';
 		return array(
 			'hello'=>array(
 				'a'=>array('name' =>'a' ,'require'=>true),
@@ -24,7 +26,7 @@ class Api_Welcome extends PhalApi_Api
 
 	public function hello()
 	{
-		
+
 		Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 		Common_GatewayClient::sendToUid('201508220451111', '123aaa');
 		$rs=array();

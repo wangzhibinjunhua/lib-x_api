@@ -5,6 +5,10 @@
 * @date Aug 31, 2016 10:59:07 AM
 * 儿童手表的所有接口服务
 */
+
+//sign
+DI()->filter = 'PhalApi_Filter_SimpleMD5';
+//###########################
 class Api_Watch extends PhalApi_Api
 {
 	public function getRules()
@@ -122,13 +126,13 @@ class Api_Watch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 20, 2016 3:26:34 PM
 	* 控制手表拍照并上传服务器
 	*/
-	
+
 	public function remote_photo()
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');

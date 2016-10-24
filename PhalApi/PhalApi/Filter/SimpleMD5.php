@@ -18,7 +18,7 @@
  */
 /**
  * http://lib.huayinghealth.com/lib-x/?service=welcome.hello&a=2
- * 参数排序然后拼接字符串为2welcome.hello
+ * 参数排序然后拼接字符串为2welcome.hello,对键名升序排序
  * 然后计算md5 32位小写
  * 即为sign参数
  */
@@ -55,7 +55,7 @@ class PhalApi_Filter_SimpleMD5 implements PhalApi_Filter {
         foreach ($params as $val) {
             $paramsStrExceptSign .= $val;
         }
-
+        //echo $paramsStrExceptSign;
         return md5($paramsStrExceptSign);
     }
 }
