@@ -107,6 +107,8 @@ abstract class PhalApi_Model_NotORM implements PhalApi_Model {
             return DI()->android_push->$table;
         }else if($id=='watch'){
         	return DI()->watch->$table;
+        }else if($id=='ha_watch'){
+        	return DI()->ha_watch->$table;
         }
         return DI()->notorm->$table;
     }

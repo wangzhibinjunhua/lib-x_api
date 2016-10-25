@@ -33,6 +33,7 @@ DI()->notorm = new PhalApi_DB_NotORM(DI()->config->get('dbs_p'), !empty($_GET['_
 
 DI()->android_push = new PhalApi_DB_NotORM(DI()->config->get('dbs_p_android_push'), !empty($_GET['__sql__'])); //新增数据库android_push
 DI()->watch = new PhalApi_DB_NotORM(DI()->config->get('dbs_p_watch'), !empty($_GET['__sql__'])); //新增数据库watch
+DI()->ha_watch = new PhalApi_DB_NotORM(DI()->config->get('dbs_p_ha_watch'), !empty($_GET['__sql__'])); //新增数据库ha_watch
 
 //翻译语言包设定
 SL('zh_cn');
