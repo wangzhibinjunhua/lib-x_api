@@ -2,11 +2,31 @@
 class Model_Account extends PhalApi_Model_NotORM
 {
 
-	
+
+		/**
+	* 日期格式转换为时间戳
+	* @author TENTINET.COM
+	* 2015年3月9日 下午6:30:08
+	* @param string $time 2011-10-23 21:59:21
+	* @return 时间戳
+	*/
+	public static function toDateUnix($time)
+	{
+	    $year = ((int) substr($time, 0, 4)); // 取得年份
+	    $month = ((int) substr($time, 5, 2)); // 取得月份
+	    $day = ((int) substr($time, 8, 2)); // 取得几号
+	    $hour = ((int) substr($time, 11, 2)); //
+	    $minute = ((int) substr($time, 14, 2)); //
+	    $second = ((int) substr($time, 17, 2)); //
+	    // 小时、分、秒、月、天、年
+	    // int mktime(int hour, int minute, int second, int month, int day, int year, int [is_dst] );
+	    return mktime($hour, $minute, $second, $month, $day, $year);
+	}
+
 	public function is_mobile_available($mobile)
 	{
-		$sql='select sms_id from sms where status=:status and mobile=:mobile';
-		$params=array(':status'=>'1',':mobile'=>$mobile);
+		$sql='select sms_id from watch_sms where status=:status and mobile=:mobile';
+		$params=array(':status'=>1,':mobile'=>$mobile);
 		if($this->getORM('watch')
 		->queryAll($sql,$params)){
 			return 1;
@@ -14,34 +34,41 @@ class Model_Account extends PhalApi_Model_NotORM
 			return 0;
 		}
 	}
-	
-	
+
+
 	public function send_sms_code($mobile, $type, $timesPerDay, $intervalSecond, $templateId, $templateStr)
 	{
 		$timesPerDay = 5;
 		$intervalSecond = 60;
 		$today = date ( 'Y-m-d' );
-		$todayStart = toDateUnix($today.' 00:00:00');
-		$todayEnd = toDateUnix($today.' 23:59:59');
-		$sql='select count(*) from sms where type=:type and mobile=:mobile and send_status=1 AND unix_time>=$todayStart AND unix_time<=$todayEnd';
-		$params=array(':type'=>$type,':mobile'=>$mobile);
+		$todayStart = self::toDateUnix($today.' 00:00:00');
+		$todayEnd = self::toDateUnix($today.' 23:59:59');
+		$sql='select sms_id from watch_sms where type='.$type.' and mobile='.$mobile.' and send_status=1 AND unix_time>='.$todayStart.' AND unix_time<='.$todayEnd.' ';
 		$todayTimes=$this->getORM('watch')
-		->queryAll($sql,$params);
+		->queryAll($sql);
+
+		//var_dump(count($todayTimes));
+		$todayTimes=count($todayTimes);
 		if($todayTimes>=$timesPerDay){
 			return 2;//超过次数
 		}
-		
-		$sql='select unix_time from sms where type=:type and mobile=:mobile and send_status=1 order by unix_time desc limit 0 ,1';
-		$params=array(':type'=>$type,':mobile'=>$mobile);
+
+		$sql='select unix_time from watch_sms where type='.$type.' and mobile='.$mobile.' and send_status=1 order by unix_time desc limit 0 ,1';
+
 		$lastUnixTime = $this->getORM('watch')
-		->queryAll($sql,$params);
+		->queryAll($sql);
+		if($lastUnixTime){
+			$lastUnixTime=$lastUnixTime[0]['unix_time'];
+		}else{
+			$lastUnixTime=0;
+		}
 		$ss = time() - $lastUnixTime;
-		$css = $intervalSecond - $ss;
-		
+
 		if ($ss < $intervalSecond) {
 			return 3;//60s 间隔内
 		}
-		
+		$sys_time=date ( 'Y-m-d H:i:s' );
+		//echo $sys_time."  aaatest".PHP_EOL;
 		//生成验证码
 		$vCode = mt_rand(100000, 999999);
 		//发送到手机（发送短信代码写在这里）
@@ -58,9 +85,8 @@ class Model_Account extends PhalApi_Model_NotORM
 	    $data['type'] = $type;
 	    $data['v_code'] = $vCode;
 	    $data['content'] = $smsContent;
-	    $data['send_time'] = date ( 'Y-m-d H:i:s' );
+	    $data['send_time'] =  $sys_time;
 	    $data['unix_time'] = time();
-	
 		$r=$this->getORM('watch')->insert($data);
 		if($r){
 			return 0;//ok
@@ -68,13 +94,13 @@ class Model_Account extends PhalApi_Model_NotORM
 			return 4;//save db fail
 		}
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 26, 2016 7:02:15 PM
 	* 调用百度短信服务发送短信
 	*/
-	
+
 	private function send_sms($receiver, $vCode, $templateId){
 		$vCode .= '';
 		date_default_timezone_set('UTC');
@@ -82,12 +108,12 @@ class Model_Account extends PhalApi_Model_NotORM
 		$timestamp = date("Y-m-d")."T".date("H:i:s")."Z";
 		$expirationPeriodInSeconds = "3600";
 		$SK="3888e0e6d1574ebaad612a291d944a44";
-		 
+
 		$authStringPrefix = "bce-auth-v1"."/".$AK."/".$timestamp."/".$expirationPeriodInSeconds;
 		$SigningKey=hash_hmac('SHA256',$authStringPrefix,$SK);
 		$CanonicalHeaders1 = "host;"."x-bce-date";
 		$CanonicalHeaders2 = "host:sms.bj.baidubce.com\n"."x-bce-date:".urlencode($timestamp);//
-		 
+
 		$CanonicalString = "";
 		$CanonicalURI = "/v1/message";
 		$CanonicalRequest = "POST\n".$CanonicalURI."\n".$CanonicalString."\n".$CanonicalHeaders2; //第二步
@@ -115,8 +141,8 @@ class Model_Account extends PhalApi_Model_NotORM
 		curl_close($curlp);
 		return $output;
 	}
-	
-	
+
+
 	public function get_lastest_location($imei)
 	{
 		$sql='select watch_time,location_lon,location_lat,location_type,location_content,battery from watch_info where imei = :imei order by id desc limit 0 ,1';
