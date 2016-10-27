@@ -100,8 +100,12 @@ abstract class PhalApi_Model_NotORM implements PhalApi_Model {
      * @param string/int $id
      * @return NotORM
      */
-    protected function getORM($id = NULL) {
+    //modify by wzb for select table name
+    protected function getORM($id = NULL,$table_name=NULL) {
         $table = $this->getTableName($id);
+        if($table_name){
+        	$table=$table_name;
+        }
         //modify by wzb 20160831
         if($id=='android_push'){
             return DI()->android_push->$table;
