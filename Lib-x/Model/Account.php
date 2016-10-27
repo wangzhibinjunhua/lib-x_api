@@ -3,9 +3,8 @@ class Model_Account extends PhalApi_Model_NotORM
 {
 
 
-		/**
+	/**
 	* 日期格式转换为时间戳
-	* @author TENTINET.COM
 	* 2015年3月9日 下午6:30:08
 	* @param string $time 2011-10-23 21:59:21
 	* @return 时间戳

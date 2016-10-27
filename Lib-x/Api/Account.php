@@ -36,7 +36,13 @@ class Api_Account extends PhalApi_Api
 		$templateStr = '[华英智联] 您的验证码是vCode，如非本人操作，请忽略本短信';
 		$code=$model->send_sms_code($this->mobile, $type, $timesPerDay, $intervalSecond, $templateId, $templateStr);
 		$rs['code']=$code;
-
+		if($rs['code'] == 0){
+			$rs['message']='解析成功,短信验证码已发送';
+		}else if($rs['code']== 2){
+			$rs['message']='当日短信发送数量已达上限,请明天再试';
+		}else if($rs['code'] == 3){
+			$rs['message']='你注册太频繁了,请过一分钟后再试';
+		}
 		return $rs;
 	}
 
