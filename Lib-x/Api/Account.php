@@ -6,11 +6,30 @@ class Api_Account extends PhalApi_Api
 	{
 		return array(
 				'get_vcode'=>array(
-						'mobile'=>array('name' =>'mobile' ,'require'=>true),
+						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
+				),
+				'verify_mobile'=>array(
+						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
+						'vcode'=>array('name' =>'vcode' ,'min'=>6,'max'=>6,'require'=>true),
 				),
 		);
 	}
-
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Oct 27, 2016 4:06:08 PM
+	* @param mobile 手机号
+	* @param vcode 短信验证码
+	* return string(json) mobile,vkey(注册)
+	*/
+	public function verify_mobile()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_Account();
+		$rs=$modle->verify_mobile($this->mobile,$this->vcode);
+		
+	}
 
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>

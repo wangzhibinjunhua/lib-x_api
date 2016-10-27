@@ -21,6 +21,44 @@ class Model_Account extends PhalApi_Model_NotORM
 	    // int mktime(int hour, int minute, int second, int month, int day, int year, int [is_dst] );
 	    return mktime($hour, $minute, $second, $month, $day, $year);
 	}
+	
+	public function verify_mobile($moblie,$vcode)
+	{
+		$where['mobile'] = $moblie;
+		$where['v_code'] = $vcode;
+		$where['status'] = 0;
+		$where['type'] = 1;//注册验证码
+		$sms_id=$this->getORM('watch','sms')
+				 ->select('sms_id')
+				 ->where($where)
+				 ->fetchOne('sms_id');
+		
+		if($sms_id){
+			//更改验证马短信状态
+			$data['status'] = 1;
+			$this->getORM('watch','sms')
+				 ->where('sms_id',$sms_id)
+				 ->update($data);
+			
+			//生成临时key
+			$vkey = md5($vcode.'-'.$mobile);
+			//生成一条新用户记录
+			$nData['mobile'] = $mobile;
+			$nData['vkey'] =$vkey;
+			$nData['status'] = 0;
+			$nData['create_time'] = date ( 'Y-m-d H:i:s' );
+			$nData['hid'] =getuuid();
+			$r = $this->getORM('watch','app_user')->insert($nData);
+			if($r){
+				return array('code'=>0,'message'=>array('moblie'=>$moblie,'vkey'=>$vkey),'info'=>'');
+			}else{
+				return array('code'=>1,'message'=>'验证失败','info'=>'');
+			}
+			
+		}else{
+			return array('code'=>2,'message'=>'验证失败','info'=>'');
+		}
+	}
 
 	public function is_mobile_available($mobile)
 	{
