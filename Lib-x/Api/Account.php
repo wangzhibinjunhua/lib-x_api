@@ -27,7 +27,7 @@ class Api_Account extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$model=new Model_Account();
-		$rs=$modle->verify_mobile($this->mobile,$this->vcode);
+		$rs=$model->verify_mobile($this->mobile,$this->vcode);
 		
 	}
 

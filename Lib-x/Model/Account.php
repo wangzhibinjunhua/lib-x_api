@@ -4,27 +4,13 @@ class Model_Account extends PhalApi_Model_NotORM
 
 
 	/**
-	* 日期格式转换为时间戳
-	* 2015年3月9日 下午6:30:08
-	* @param string $time 2011-10-23 21:59:21
-	* @return 时间戳
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Oct 27, 2016 7:46:25 PM
+	* 验证短信验证码
 	*/
-	public static function toDateUnix($time)
+	public function verify_mobile($mobile,$vcode)
 	{
-	    $year = ((int) substr($time, 0, 4)); // 取得年份
-	    $month = ((int) substr($time, 5, 2)); // 取得月份
-	    $day = ((int) substr($time, 8, 2)); // 取得几号
-	    $hour = ((int) substr($time, 11, 2)); //
-	    $minute = ((int) substr($time, 14, 2)); //
-	    $second = ((int) substr($time, 17, 2)); //
-	    // 小时、分、秒、月、天、年
-	    // int mktime(int hour, int minute, int second, int month, int day, int year, int [is_dst] );
-	    return mktime($hour, $minute, $second, $month, $day, $year);
-	}
-	
-	public function verify_mobile($moblie,$vcode)
-	{
-		$where['mobile'] = $moblie;
+		$where['mobile'] = $mobile;
 		$where['v_code'] = $vcode;
 		$where['status'] = 0;
 		$where['type'] = 1;//注册验证码
@@ -47,10 +33,10 @@ class Model_Account extends PhalApi_Model_NotORM
 			$nData['vkey'] =$vkey;
 			$nData['status'] = 0;
 			$nData['create_time'] = date ( 'Y-m-d H:i:s' );
-			$nData['hid'] =getuuid();
+			$nData['hid'] =Common_Lib::getuuid();
 			$r = $this->getORM('watch','app_user')->insert($nData);
 			if($r){
-				return array('code'=>0,'message'=>array('moblie'=>$moblie,'vkey'=>$vkey),'info'=>'');
+				return array('code'=>0,'message'=>array('moblie'=>$mobile,'vkey'=>$vkey),'info'=>'');
 			}else{
 				return array('code'=>1,'message'=>'验证失败','info'=>'');
 			}
@@ -60,6 +46,11 @@ class Model_Account extends PhalApi_Model_NotORM
 		}
 	}
 
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Oct 27, 2016 7:46:47 PM
+	* 查看手机号是否已注册过
+	*/
 	public function is_mobile_available($mobile)
 	{
 		$sql='select sms_id from watch_sms where status=:status and mobile=:mobile';
@@ -78,8 +69,8 @@ class Model_Account extends PhalApi_Model_NotORM
 		$timesPerDay = 5;
 		$intervalSecond = 60;
 		$today = date ( 'Y-m-d' );
-		$todayStart = self::toDateUnix($today.' 00:00:00');
-		$todayEnd = self::toDateUnix($today.' 23:59:59');
+		$todayStart = Common_Lib::toDateUnix($today.' 00:00:00');
+		$todayEnd = Common_Lib::toDateUnix($today.' 23:59:59');
 		$sql='select sms_id from watch_sms where type='.$type.' and mobile='.$mobile.' and send_status=1 AND unix_time>='.$todayStart.' AND unix_time<='.$todayEnd.' ';
 		$todayTimes=$this->getORM('watch')
 		->queryAll($sql);
