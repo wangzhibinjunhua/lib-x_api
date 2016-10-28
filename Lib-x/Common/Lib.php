@@ -37,4 +37,16 @@ function getuuid(){
 	return $randStr;
 }
 
+// 删除数组中对应key的元素
+function delArrayItems($paramArr, $keyStr)
+{
+	foreach ($paramArr as $k => $v) {
+		$e = strrpos(',' . $keyStr . ',', ',' . $k . ',');
+		if ($e === false) {} else {
+			unset($paramArr[$k]);
+		}
+	}
+	return $paramArr;
+}
+
 }

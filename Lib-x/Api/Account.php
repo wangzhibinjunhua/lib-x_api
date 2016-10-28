@@ -12,7 +12,30 @@ class Api_Account extends PhalApi_Api
 						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
 						'vcode'=>array('name' =>'vcode' ,'min'=>6,'max'=>6,'require'=>true),
 				),
+				'register'=>array(
+						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
+						'vkey'=>array('name' =>'vkey' ,'min'=>6,'require'=>true),
+						'password'=>array('name' =>'password' ,'min'=>6,'require'=>true),
+				),
 		);
+	}
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Oct 28, 2016 3:36:34 PM
+	* 注册新用户
+	* @param mobile
+	* @param vkey
+	* @param password(明文,服务端加密)
+	* @return string(json) ok/fail
+	*/
+	public function register()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_Account();
+		$rs=$model->register($this->mobile,$this->vkey,$this->password);
+		return $rs;
 	}
 	
 	
@@ -28,7 +51,7 @@ class Api_Account extends PhalApi_Api
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$model=new Model_Account();
 		$rs=$model->verify_mobile($this->mobile,$this->vcode);
-		
+		return $rs;
 	}
 
 	/**

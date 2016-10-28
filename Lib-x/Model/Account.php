@@ -2,7 +2,40 @@
 class Model_Account extends PhalApi_Model_NotORM
 {
 
-
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Oct 28, 2016 3:41:03 PM
+	* 用户注册
+	*/
+	public function register($mobile,$vkey,$password)
+	{
+		$user=$this->getORM('watch','app_user')
+				   ->select('mobile')
+				   ->where('mobile=?',$moblie)
+				   ->where('status>?',0)
+				   ->fetchOne('mobile');
+		if($user){
+			return array('code'=>1,'message'=>'此手机号已经注册过','info'=>'');
+		}
+		
+		$data['password'] = strtoupper(md5($password));
+		$data['status'] = 1;
+		$where['mobile'] = $mobile;
+		$where['vkey'] = $vkey;
+		
+		$r=$this->getORM('watch','app_user')
+				->where($where)
+				->update($data);
+		
+		if($r){
+			return array('code'=>0,'message'=>'注册成功','info'=>'');
+		}else{
+			return array('code'=>2,'message'=>'注册失败','info'=>'');
+		}
+	}
+	
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 27, 2016 7:46:25 PM
@@ -53,9 +86,9 @@ class Model_Account extends PhalApi_Model_NotORM
 	*/
 	public function is_mobile_available($mobile)
 	{
-		$sql='select sms_id from watch_sms where status=:status and mobile=:mobile';
+		$sql='select id from watch_app_user where status=:status and mobile=:mobile';
 		$params=array(':status'=>1,':mobile'=>$mobile);
-		if($this->getORM('watch')
+		if($this->getORM('watch','app_user')
 		->queryAll($sql,$params)){
 			return 1;
 		}else{
