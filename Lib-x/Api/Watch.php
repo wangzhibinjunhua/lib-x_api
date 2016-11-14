@@ -12,6 +12,12 @@ Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 //###########################
 class Api_Watch extends PhalApi_Api
 {
+	
+	//增加一些配置定义
+	
+	//通信协议 手表厂商名称
+	const CS_NAME='CS*';
+	
 	public function getRules()
 	{
 		return array(
@@ -138,7 +144,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*PHOTO';
+			$data=self::CS_NAME.$this->imei.'*PHOTO';
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -159,7 +165,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*SILENCETIME,'.$this->silence;
+			$data=self::CS_NAME.$this->imei.'*SILENCETIME,'.$this->silence;
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -179,7 +185,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*HONOR,0';
+			$data=self::CS_NAME.$this->imei.'*HONOR,0';
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -198,7 +204,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*HONOR,1';
+			$data=self::CS_NAME.$this->imei.'*HONOR,1';
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -218,7 +224,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*MESSAGE,'.$this->message;
+			$data=self::CS_NAME.$this->imei.'*MESSAGE,'.$this->message;
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -239,7 +245,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*PHB2,'.$this->contactb;
+			$data=self::CS_NAME.$this->imei.'*PHB2,'.$this->contactb;
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -258,7 +264,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*PHB,'.$this->contacta;
+			$data=self::CS_NAME.$this->imei.'*PHB,'.$this->contacta;
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -277,7 +283,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*REMIND,'.$this->alarm;
+			$data=self::CS_NAME.$this->imei.'*REMIND,'.$this->alarm;
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -296,7 +302,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*FIND';
+			$data=self::CS_NAME.$this->imei.'*FIND';
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -316,7 +322,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*POWEROFF';
+			$data=self::CS_NAME.$this->imei.'*POWEROFF';
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -336,7 +342,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*CR';
+			$data=self::CS_NAME.$this->imei.'*CR';
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -355,7 +361,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*RESET';
+			$data=self::CS_NAME.$this->imei.'*RESET';
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -374,7 +380,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*FACTORY';
+			$data=self::CS_NAME.$this->imei.'*FACTORY';
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -393,7 +399,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*SOS,'.$this->sos;
+			$data=self::CS_NAME.$this->imei.'*SOS,'.$this->sos;
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -412,7 +418,7 @@ class Api_Watch extends PhalApi_Api
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$data='CS*'.$this->imei.'*MONITOR,'.$this->phonenumber;
+			$data=self::CS_NAME.$this->imei.'*MONITOR,'.$this->phonenumber;
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 			Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 			$rs['code']=0;
@@ -434,7 +440,7 @@ class Api_Watch extends PhalApi_Api
 		if($this->upmode== '1' || $this->upmode== '10' || $this->upmode== '60'){
 
 			if(Common_GatewayClient::isUidOnline($this->imei)){
-				$data='CS*'.$this->imei.'*UPLOAD,'.$this->upmode;
+				$data=self::CS_NAME.$this->imei.'*UPLOAD,'.$this->upmode;
 				Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 				Common_GatewayClient::sendToUid($this->imei, Common_GatewayPack::pack_data($data));
 				$rs['code']=0;
