@@ -17,7 +17,30 @@ class Api_HaWatchAccount extends PhalApi_Api
 						'vkey'=>array('name' =>'vkey' ,'min'=>6,'require'=>true),
 						'password'=>array('name' =>'password' ,'min'=>6,'require'=>true),
 				),
+				'login'=>array(
+						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
+						'password'=>array('name' =>'password' ,'min'=>6,'max'=>14,'require'=>true),
+				),
 		);
+	}
+	
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Nov 14, 2016 5:11:31 PM
+	* 用户登录
+	* @param mobile
+	* @param password
+	* @return string(json) username,nickname,sex,mobile,status,token(用户登录成功时接口返回,用于维护用户的会话状态)
+	*/
+	public function login()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_HaWatchAccount();
+		$rs=$model->login($this->mobile,$this->password);
+		return $rs;
+		
 	}
 	
 	

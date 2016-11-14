@@ -26,7 +26,7 @@ public static function toDateUnix($time)
 * @param
 * @return uuid字符串
 */
-function getuuid(){
+public static function getuuid(){
 	for($i=0; $i<10; $i++){
 		$rand[] = mt_rand(1, 9999999999);
 	}
@@ -38,7 +38,7 @@ function getuuid(){
 }
 
 // 删除数组中对应key的元素
-function delArrayItems($paramArr, $keyStr)
+public static function delArrayItems($paramArr, $keyStr)
 {
 	foreach ($paramArr as $k => $v) {
 		$e = strrpos(',' . $keyStr . ',', ',' . $k . ',');

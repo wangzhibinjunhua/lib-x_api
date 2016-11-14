@@ -4,6 +4,37 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 
 	
 	
+	public function login($moblie,$password)
+	{
+		$where['moblie']=$moblie;
+		$where['password']=strtoupper(md5($password));
+		
+		$userinfo=$this->getORM('ha_watch','app_user')
+					   ->where($where)
+					   ->fetchOne();
+		$userinfo=Common_Lib::delArrayItems('id,password,vkey,token,hid,app_sn,create_time');
+		if($userinfo){
+			if($userinfo['status']==2){
+				return array('code'=>9,'message'=>'帐号被锁定','info'=>'');
+			}
+			//生成登录状态票据
+			$data['token'] = Common_Lib::getuuid();//session_id()
+			$where['mobile'] = $moblie;
+			$r = $this->getORM('ha_watch','app_user')
+					   ->where($where)
+					   ->update($data);
+			
+			if(!$r){
+				return array('code'=>3,'message'=>'登录失败','info'=>'');
+			}
+			$userinfo['token'] = $data['token'];
+			return array('code'=>0,'message'=>$userinfo,'info'=>'');
+		}else{
+			return array('code'=>2,'message'=>'登录失败,你还未注册','info'=>'');
+		}
+	}
+	
+	
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 28, 2016 3:41:03 PM
