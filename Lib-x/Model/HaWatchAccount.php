@@ -4,9 +4,9 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 
 	
 	
-	public function login($moblie,$password)
+	public function login($mobile,$password)
 	{
-		$where['moblie']=$moblie;
+		$where['mobile']=$mobile;
 		$where['password']=strtoupper(md5($password));
 		
 		$userinfo=$this->getORM('ha_watch','app_user')
@@ -19,7 +19,7 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 			}
 			//生成登录状态票据
 			$data['token'] = Common_Lib::getuuid();//session_id()
-			$where['mobile'] = $moblie;
+			$where['mobile'] = $mobile;
 			$r = $this->getORM('ha_watch','app_user')
 					   ->where($where)
 					   ->update($data);
@@ -30,7 +30,7 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 			$userinfo['token'] = $data['token'];
 			return array('code'=>0,'message'=>$userinfo,'info'=>'');
 		}else{
-			return array('code'=>2,'message'=>'登录失败,你还未注册','info'=>'');
+			return array('code'=>2,'message'=>'登录失败','info'=>'');
 		}
 	}
 	
