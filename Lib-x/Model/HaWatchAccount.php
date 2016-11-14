@@ -2,17 +2,17 @@
 class Model_HaWatchAccount extends PhalApi_Model_NotORM
 {
 
-	
-	
+
+
 	public function login($mobile,$password)
 	{
 		$where['mobile']=$mobile;
 		$where['password']=strtoupper(md5($password));
-		
+
 		$userinfo=$this->getORM('ha_watch','app_user')
 					   ->where($where)
 					   ->fetchOne();
-		$userinfo=Common_Lib::delArrayItems('id,password,vkey,token,hid,app_sn,create_time');
+		$userinfo=Common_Lib::delArrayItems($userinfo,'id,password,vkey,token,hid,app_sn,create_time,status');
 		if($userinfo){
 			if($userinfo['status']==2){
 				return array('code'=>9,'message'=>'帐号被锁定','info'=>'');
@@ -23,7 +23,7 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 			$r = $this->getORM('ha_watch','app_user')
 					   ->where($where)
 					   ->update($data);
-			
+
 			if(!$r){
 				return array('code'=>3,'message'=>'登录失败','info'=>'');
 			}
@@ -33,8 +33,8 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 			return array('code'=>2,'message'=>'登录失败','info'=>'');
 		}
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 28, 2016 3:41:03 PM
@@ -50,23 +50,23 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 		if($user){
 			return array('code'=>1,'message'=>'此手机号已经注册过','info'=>'');
 		}
-		
+
 		$data['password'] = strtoupper(md5($password));
 		$data['status'] = 1;
 		$where['mobile'] = $mobile;
 		$where['vkey'] = $vkey;
-		
+
 		$r=$this->getORM('ha_watch','app_user')
 				->where($where)
 				->update($data);
-		
+
 		if($r){
 			return array('code'=>0,'message'=>'注册成功','info'=>'');
 		}else{
 			return array('code'=>2,'message'=>'注册失败','info'=>'');
 		}
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 27, 2016 7:46:25 PM
@@ -82,14 +82,14 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 				 ->select('sms_id')
 				 ->where($where)
 				 ->fetchOne('sms_id');
-		
+
 		if($sms_id){
 			//更改验证马短信状态
 			$data['status'] = 1;
 			$this->getORM('ha_watch','sms')
 				 ->where('sms_id',$sms_id)
 				 ->update($data);
-			
+
 			//生成临时key
 			$vkey = md5($vcode.'-'.$mobile);
 			//生成一条新用户记录
@@ -104,7 +104,7 @@ class Model_HaWatchAccount extends PhalApi_Model_NotORM
 			}else{
 				return array('code'=>1,'message'=>'验证失败','info'=>'');
 			}
-			
+
 		}else{
 			return array('code'=>2,'message'=>'验证失败','info'=>'');
 		}
