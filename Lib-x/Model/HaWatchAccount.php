@@ -2,8 +2,93 @@
 class Model_HaWatchAccount extends PhalApi_Model_NotORM
 {
 
+	
+	public function reset_forgetpw($mobile,$vkey,$password)
+	{
+		$nData['password'] = strtoupper(md5($password));
+		$nData['vkey'] = Common_Lib::getuuid();
+		
+		$where['mobile']=$mobile;
+		$where['vkey']=$vkey;
+		
+		$r=$this->getORM('ha_watch','app_user')
+		        ->where($where)
+		        ->update($nData);
+		
+		if($r){
+			return array('code'=>0,'message'=>'修改成功','info'=>'');
+		}else{
+			return array('code'=>1,'message'=>'修改失败','info'=>'');
+		}
+		
+	}
+	
+	
+	public function verify_forgetpw_code($mobile,$vcode)
+	{
+		$where['mobile'] = $mobile;
+		$where['v_code'] = $vcode;
+		$where['status'] = 0;
+		$where['type'] = 2;//找回密码验证码
+		$sms_id=$this->getORM('ha_watch','sms')
+					 ->select('sms_id')
+					 ->where($where)
+					 ->fetchOne('sms_id');
+	
+		if($sms_id){
+			//更改验证马短信状态
+			$data['status'] = 1;
+			$this->getORM('ha_watch','sms')
+			->where('sms_id',$sms_id)
+			->update($data);
+	
+			//生成临时key
+			$vkey = md5($vcode.'-'.$mobile);
+			
+			
+			$nData['vkey'] =$vkey;
+			
+			
+			$r = $this->getORM('ha_watch','app_user')->update($nData);
+			if($r){
+				return array('code'=>0,'message'=>array('moblie'=>$mobile,'vkey'=>$vkey),'info'=>'');
+			}else{
+				return array('code'=>1,'message'=>'验证失败','info'=>'');
+			}
+	
+		}else{
+			return array('code'=>2,'message'=>'验证失败','info'=>'');
+		}
+	}
+	
+	
 
-
+	public function get_forgetpw_code($mobile)
+	{
+		$where['mobile']=$mobile;
+		$where['status']=1;
+		$user=$this->getORM('ha_watch','app_user')
+					   ->where($where)
+					   ->fetchOne();
+		if(!$user){
+			return array('code'=>3,'message'=>'没有此用户','info'=>'');
+		}
+		
+		$type = 2;
+		$timesPerDay = 5;
+		$intervalSecond = 60;
+		$templateId = 'smsTpl:e7476122a1c24e37b3b0de19d04ae903';
+		$templateStr = '[华英智联] 您正在使用找回密码功能，验证码是vCode';
+		
+		$r=self::send_sms_code($mobile, $type, $timesPerDay, $intervalSecond, $templateId, $templateStr);
+		if($r == 0){
+			return array('code'=>0,'message'=>'短信验证码已发送','info'=>'');
+		}else{
+			return array('code'=>1,'message'=>'稍后重试','info'=>'');
+		}
+	}
+	
+	
 	public function login($mobile,$password)
 	{
 		$where['mobile']=$mobile;

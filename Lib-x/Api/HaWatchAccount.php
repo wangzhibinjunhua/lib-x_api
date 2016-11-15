@@ -21,10 +21,75 @@ class Api_HaWatchAccount extends PhalApi_Api
 						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
 						'password'=>array('name' =>'password' ,'min'=>6,'max'=>14,'require'=>true),
 				),
+				'get_forgetpw_code'=>array(
+						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
+				),
+				
+				'verify_forgetpw_code'=>array(
+						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
+						'vcode'=>array('name' =>'vcode' ,'min'=>6,'max'=>6,'require'=>true),
+				),
+				
+				'reset_forgetpw'=>array(
+						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
+						'vkey'=>array('name' =>'vkey' ,'min'=>6,'require'=>true),
+						'password'=>array('name' =>'password' ,'min'=>6,'require'=>true),
+				),
 		);
 	}
 	
 	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Nov 15, 2016 3:48:42 PM
+	* 找回密码,重置密码
+	* @param mobile 手机号
+	* @param vkey 授权码
+	* @param password 新密码
+	* @return 成功,失败
+	*/
+	public function reset_forgetpw()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_HaWatchAccount();
+		$rs=$model->reset_forgetpw($this->mobile,$this->vkey,$this->password);
+		return $rs;
+		
+	}
+	
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Nov 15, 2016 3:33:30 PM
+	* 验证找回密码验证码
+	* @param mobile 手机号
+	* @param vcode 短信验证码
+	* @return 返回授权码vkey
+	*/
+	public function verify_forgetpw_code()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_HaWatchAccount();
+		$rs=$model->verify_forgetpw_code($this->mobile,$this->vcode);
+		return $rs;
+	}
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Nov 14, 2016 6:52:43 PM
+	* 获取短信找回密码验证码
+	* @param moblie
+	* 发送验证码到手机
+	*/
+	public function get_forgetpw_code()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_HaWatchAccount();
+		$rs=$model->get_forgetpw_code($this->mobile);
+		return $rs;
+	}
 	
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
