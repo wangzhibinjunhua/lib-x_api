@@ -1,4 +1,8 @@
 <?php
+
+//sign
+DI()->filter = 'PhalApi_Filter_SimpleMD5';
+
 class Api_HaWatchAccount extends PhalApi_Api
 {
 
@@ -24,12 +28,12 @@ class Api_HaWatchAccount extends PhalApi_Api
 				'get_forgetpw_code'=>array(
 						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
 				),
-				
+
 				'verify_forgetpw_code'=>array(
 						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
 						'vcode'=>array('name' =>'vcode' ,'min'=>6,'max'=>6,'require'=>true),
 				),
-				
+
 				'reset_forgetpw'=>array(
 						'mobile'=>array('name' =>'mobile' ,'min'=>11,'max'=>11,'require'=>true),
 						'vkey'=>array('name' =>'vkey' ,'min'=>6,'require'=>true),
@@ -37,8 +41,8 @@ class Api_HaWatchAccount extends PhalApi_Api
 				),
 		);
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Nov 15, 2016 3:48:42 PM
@@ -54,11 +58,11 @@ class Api_HaWatchAccount extends PhalApi_Api
 		$model=new Model_HaWatchAccount();
 		$rs=$model->reset_forgetpw($this->mobile,$this->vkey,$this->password);
 		return $rs;
-		
+
 	}
-	
-	
-	
+
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Nov 15, 2016 3:33:30 PM
@@ -74,8 +78,8 @@ class Api_HaWatchAccount extends PhalApi_Api
 		$rs=$model->verify_forgetpw_code($this->mobile,$this->vcode);
 		return $rs;
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Nov 14, 2016 6:52:43 PM
@@ -90,7 +94,7 @@ class Api_HaWatchAccount extends PhalApi_Api
 		$rs=$model->get_forgetpw_code($this->mobile);
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Nov 14, 2016 5:11:31 PM
@@ -105,10 +109,10 @@ class Api_HaWatchAccount extends PhalApi_Api
 		$model=new Model_HaWatchAccount();
 		$rs=$model->login($this->mobile,$this->password);
 		return $rs;
-		
+
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 28, 2016 3:36:34 PM
@@ -125,8 +129,8 @@ class Api_HaWatchAccount extends PhalApi_Api
 		$rs=$model->register($this->mobile,$this->vkey,$this->password);
 		return $rs;
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 27, 2016 4:06:08 PM

@@ -12,13 +12,13 @@ Common_GatewayClient::$registerAddress = '127.0.0.1:1330';
 //###########################
 class Api_HaWatch extends PhalApi_Api
 {
-	
+
 	//增加一些配置定义
-	
+
 	//通信协议 手表厂商名称
 	const CS_NAME='HA*';
-	
-	
+
+
 	public function getRules()
 	{
 		return array(
@@ -75,8 +75,8 @@ class Api_HaWatch extends PhalApi_Api
 		);
 
 	}
-	
-	
+
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Nov 16, 2016 10:01:28 AM
