@@ -67,9 +67,31 @@ class Api_HaWatch extends PhalApi_Api
 				'unbind_watch'=>array(
 						'user_id'=>array('name' =>'user_id','require'=>true),
 				),
+				'get_health_data'=>array(
+						'list'=>array('name'=>'list','type'=>'int','min'=>0,'max'=>15,'require'=>true),
+						'type'=>array('name'=>'type','type'=>'int','min'=>0,'max'=>2,'require'=>true),
+				),
 
 		);
 
+	}
+	
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Nov 16, 2016 10:01:28 AM
+	* 获取心率数据
+	* @param imei,手表imei
+	* @param list,条数,0代表最近的20条,1代表前20条,依次类推
+	* @param type,数据类型,0代表hr,1代表bp,2代表ecg
+	* @return 对应的数据和时间
+	*/
+	public function get_health_data()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_HaWatch();
+		$rs=$model->get_health_data($this->imei,$this->type,$this->list);
+		return $rs;
 	}
 
 	/**

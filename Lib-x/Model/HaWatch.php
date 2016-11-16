@@ -2,6 +2,58 @@
 class Model_HaWatch extends PhalApi_Model_NotORM
 {
 
+	
+	
+	public function get_health_data($imei,$type,$list)
+	{
+		$type=intval($type);
+		$list=intval($list);
+		
+		switch($type){
+			case 0://hr
+				$where['hr>?']=0;
+				$r=$this->getORM('ha_watch','health_data')
+						->select('hr,create_time')
+						->where($where)
+						->order('id DESC')
+						->limit($list*20,20)
+						->fetchAll();
+				if($r){
+					return array('code'=>0,'message'=>$r,'info'=>'');
+				}
+				break;
+			case 1://bp
+				$where['bph>?']=0;
+				$where['bph>?']=0;
+				$r=$this->getORM('ha_watch','health_data')
+						->select('bph,bpl,create_time')
+						->where($where)
+						->order('id DESC')
+						->limit($list*20,20)
+						->fetchAll();
+				if($r){
+					return array('code'=>0,'message'=>$r,'info'=>'');
+				}
+				break;
+			case 2://ecg
+				$where['ecg>?']=0;
+				$r=$this->getORM('ha_watch','health_data')
+						->select('ecg,create_time')
+						->where($where)
+						->order('id DESC')
+						->limit($list*20,20)
+						->fetchAll();
+				if($r){
+					return array('code'=>0,'message'=>$r,'info'=>'');
+				}
+				break;
+			default:
+				break;
+		}
+		return array('code'=>1,'message'=>'无数据','info'=>'');
+	}
+	
+	
 	public function get_lastest_location($imei)
 	{
 		$sql='select watch_time,location_lon,location_lat,location_type,location_content,battery from watch_info where imei = :imei order by id desc limit 0 ,1';
