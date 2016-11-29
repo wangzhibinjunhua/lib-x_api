@@ -506,12 +506,8 @@ class Api_HaWatch extends PhalApi_Api
 		//检验日期数据是否合法
 		if(strtotime( date('Y-m-d', strtotime($this->date)) ) === strtotime( $this->date)){
 			$model=new Model_HaWatch();
-			$day_location=$model->get_day_location($this->imei,$this->date);
-			if(empty($day_location)){
-				$rs['code']=1;
-			}else{
-				$rs['message']=$day_location;
-			}
+			$rs=$model->get_day_location($this->imei,$this->date);
+			return $rs;
 		}else{
 			$rs['code']=2;
 		}
