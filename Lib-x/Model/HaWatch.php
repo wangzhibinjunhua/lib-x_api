@@ -56,10 +56,23 @@ class Model_HaWatch extends PhalApi_Model_NotORM
 	
 	public function get_lastest_location($imei)
 	{
-		$sql='select watch_time,location_lon,location_lat,location_type,location_content,battery from watch_info where imei = :imei order by id desc limit 0 ,1';
-		$params=array(':imei'=> $imei);
-		return $this->getORM('ha_watch')
-		->queryAll($sql,$params);
+		//$sql='select watch_time,location_lon,location_lat,location_type,location_content,battery from watch_info where imei = :imei order by id desc limit 0 ,1';
+		$where['location_type>=?']=0;
+		$where['imei']=$imei;
+		$r=$this->getORM('ha_watch','health_data')
+			->select('watch_time,location_lon,location_lat,location_type,location_content,battery')
+			->where($where)
+			->order('id DESC')
+			->limit(0,1)
+			->fetchAll();
+		if($r){
+			return array('code'=>0,'message'=>$r,'info'=>'');
+		}else{
+			return array('code'=>1,'message'=>"无数据",'info'=>'');
+		}
+		//$params=array(':imei'=> $imei);
+		//return $this->getORM('ha_watch')
+		//->queryAll($sql,$params);
 	}
 
 	public function get_day_location($imei,$date)

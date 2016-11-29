@@ -527,15 +527,15 @@ class Api_HaWatch extends PhalApi_Api
 
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$domain=new Domain_HaWatch();
-		$lastest_location=$domain->get_lastest_location($this->imei);
+		$rs=$domain->get_lastest_location($this->imei);
 
-		if(empty($lastest_location))
-		{
-			$rs['code']=1;
-		}else{
-			$rs['code']=0;
-			$rs['message']=$lastest_location;
-		}
+// 		if(empty($lastest_location))
+// 		{
+// 			$rs['code']=1;
+// 		}else{
+// 			$rs['code']=0;
+// 			$rs['message']=$lastest_location;
+// 		}
 		return $rs;
 	}
 
