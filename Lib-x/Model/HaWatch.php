@@ -3,7 +3,7 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 	public function get_health_data($imei, $type, $list) {
 		$type = intval ( $type );
 		$list = intval ( $list );
-		
+
 		switch ($type) {
 			case 0 : // hr
 				$where ['hr>?'] = 0;
@@ -12,7 +12,7 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 					return array (
 							'code' => 0,
 							'message' => $r,
-							'info' => '' 
+							'info' => ''
 					);
 				}
 				break;
@@ -24,7 +24,7 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 					return array (
 							'code' => 0,
 							'message' => $r,
-							'info' => '' 
+							'info' => ''
 					);
 				}
 				break;
@@ -35,7 +35,7 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 					return array (
 							'code' => 0,
 							'message' => $r,
-							'info' => '' 
+							'info' => ''
 					);
 				}
 				break;
@@ -45,14 +45,14 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 		return array (
 				'code' => 1,
 				'message' => '无数据',
-				'info' => '' 
+				'info' => ''
 		);
 	}
 	public function get_lastest_location($imei) {
 		// $sql='select watch_time,location_lon,location_lat,location_type,location_content,battery from watch_info where imei = :imei order by id desc limit 0 ,1';
 		$where ['location_type>=?'] = 0;
 		$where ['imei'] = $imei;
-		$r = $this->getORM ( 'ha_watch', 'watch_info' )
+		$r = $this->getORM ( 'ha_watch', 'info' )
 				  ->select ( 'watch_time,location_lon,location_lat,location_type,location_content,battery' )
 				  ->where ( $where )
 		          ->order ( 'id DESC' )
@@ -62,13 +62,13 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 			return array (
 					'code' => 0,
 					'message' => $r,
-					'info' => '' 
+					'info' => ''
 			);
 		} else {
 			return array (
 					'code' => 1,
 					'message' => "无数据",
-					'info' => '' 
+					'info' => ''
 			);
 		}
 	}
@@ -77,18 +77,18 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 		$where ['location_type>=?'] = 0;
 		$where ['imei'] = $imei;
 		$where ['date(watch_time)'] = $date;
-		$r = $this->getORM ( 'ha_watch', 'watch_info' )->select ( 'watch_time,location_lon,location_lat,location_type,location_content,battery' )->where ( $where )->order ( 'id DESC' )->fetchAll ();
+		$r = $this->getORM ( 'ha_watch', 'info' )->select ( 'watch_time,location_lon,location_lat,location_type,location_content,battery' )->where ( $where )->order ( 'id DESC' )->fetchAll ();
 		if ($r) {
 			return array (
 					'code' => 0,
 					'message' => $r,
-					'info' => '' 
+					'info' => ''
 			);
 		} else {
 			return array (
 					'code' => 1,
 					'message' => "无数据",
-					'info' => '' 
+					'info' => ''
 			);
 		}
 	}
@@ -96,7 +96,7 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 		$sql = 'select file from watch_message where flag=0 and user_id=:user_id and imei=:imei';
 		$params = array (
 				':user_id' => $user_id,
-				':imei' => $imei 
+				':imei' => $imei
 		);
 		return $this->getORM ( 'ha_watch' )->queryAll ( $sql, $params );
 	}
@@ -106,7 +106,7 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 				':flag' => '1',
 				':imei' => $imei,
 				':user_id' => $user_id,
-				':filename' => $filename 
+				':filename' => $filename
 		);
 		return $this->getORM ( 'ha_watch' )->queryAll ( $sql, $params );
 	}
@@ -114,16 +114,16 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 		$sql = 'select * from watch_app_watch where watch_imei=:imei and app_id=:id';
 		$params = array (
 				':imei' => $imei,
-				':id' => $user_id 
+				':id' => $user_id
 		);
 		$test = $this->getORM ( 'ha_watch' )->queryAll ( $sql, $params );
 		if (! empty ( $test )) {
 			return null;
 		}
-		
+
 		$data = array (
 				'watch_imei' => $imei,
-				'app_id' => $user_id 
+				'app_id' => $user_id
 		);
 		$rs = $this->getORM ( 'ha_watch' )->insert ( $data );
 		return $rs;
