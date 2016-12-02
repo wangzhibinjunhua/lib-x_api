@@ -21,14 +21,46 @@ class Api_PushNovatech extends PhalApi_Api
 						'location'=>array('name' =>'location' ,'require'=>true),
 						
 				),
+				'get_lastest_location'=>array(
+						'imei'=>array('name' =>'imei' ,'min' => 0,'max' => 16,'require'=>true),				
+				),
+				'get_day_location'=>array(
+						'imei'=>array('name' =>'imei' ,'min' => 0,'max' => 16,'require'=>true),
+						'date'=>array('name' =>'date' ,'type'=>'date','require'=>true),
+				),
 			);
 		
 	}
 	
 	
+	public function get_day_location()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_PushNovatech();
+		if(strtotime( date('Y-m-d', strtotime($this->date)) ) === strtotime( $this->date)){
+			$rs=$model->get_day_location($this->imei,$this->date);
+		}else{
+			
+			return array('code'=> 2,'message'=>'日期参数错误','info'=>'');
+		}
+	
+		return $rs;
+	}
 	
 	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Dec 2, 2016 11:47:41 AM
+	* 获取最新的一次定位数据
+	*/
 	
+	public function get_lastest_location()
+	{
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_PushNovatech();
+		$rs=$model->get_lastest_location($this->imei);
+		return $rs;
+	}
 	
 	
 	
@@ -41,9 +73,9 @@ class Api_PushNovatech extends PhalApi_Api
 	
 	public function location_upload()
 	{
-		$rs=array('code'=> 0,'message'=>array(),'info'=>'');
-		$domain=new Model_PushNovatech();
-		$rs=$domain->location_upload($this->imei,$this->time,$this->lon,$this->lat,$this->location);
+		$rs=array('code'=> 0,'message'=>'','info'=>'');
+		$model=new Model_PushNovatech();
+		$rs=$model->location_upload($this->imei,$this->time,$this->lon,$this->lat,$this->location);
 		return $rs;
 	}
 	

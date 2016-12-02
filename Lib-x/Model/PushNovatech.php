@@ -2,6 +2,50 @@
 class Model_PushNovatech extends PhalApi_Model_NotORM
 {
 
+	public function get_day_location($imei,$date)
+	{
+		$where ['imei'] = $imei;
+		$where ['date(watch_time)'] = $date;
+		$where['location_lon != ?']='';
+		$r = $this->getORM ( 'android_push', 'pad_info' )
+		->select ( 'imei,location_lon,location_lat,location_content,dev_time' )
+		->where ( $where )
+		->order ( 'id DESC' )
+		->fetchAll ();
+		if($r){
+			return array (
+					'code' => 0,
+					'message' => $r,
+					'info' => ''
+			);
+		}else{
+			return array('code'=>1,'message'=>'无数据','info'=>'');
+		}
+	}
+	
+	
+	public function get_lastest_location($imei)
+	{
+		$where['imei']=$imei;
+		$where['location_lon != ?']='';
+		$where['location_lat != ?']='';
+		$r = $this->getORM ( 'android_push', 'pad_info' )
+					->select ( 'imei,location_lon,location_lat,location_content,dev_time' )
+					->where ( $where )
+					->order ( 'id DESC' )
+					->limit ( 0, 1 )
+					->fetchAll ();
+		if($r){
+			return array (
+					'code' => 0,
+					'message' => $r,
+					'info' => ''
+			);
+		}else{
+			return array('code'=>1,'message'=>'无数据','info'=>'');
+		}
+	}
+	
 	public function location_upload($imei,$time,$lon,$lat,$location)
 	{
 		$data['imei']=$imei;
