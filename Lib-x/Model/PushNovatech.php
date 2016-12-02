@@ -5,7 +5,7 @@ class Model_PushNovatech extends PhalApi_Model_NotORM
 	public function get_day_location($imei,$date)
 	{
 		$where ['imei'] = $imei;
-		$where ['date(watch_time)'] = $date;
+		$where ['date(dev_time)'] = $date;
 		$where['location_lon != ?']='';
 		$r = $this->getORM ( 'android_push', 'pad_info' )
 		->select ( 'imei,location_lon,location_lat,location_content,dev_time' )
