@@ -49,7 +49,7 @@ class Api_PushNovatech extends PhalApi_Api
 			$success=true;
 		}else{
 			$success=false;
-			$msg=$rs;
+			$msg=$rs['message'].' '.$rs['info'];
 		}
 		Common_Lib::report('PushNovatech','get_day_location',$success,$code,$msg );
 	
@@ -74,7 +74,7 @@ class Api_PushNovatech extends PhalApi_Api
 			$success=true;
 		}else{
 			$success=false;
-			$msg=$rs;
+			$msg=$rs['message'].' '.$rs['info'];
 		}
 		Common_Lib::report('PushNovatech','get_lastest_location',$success,$code,$msg );
 		
@@ -101,7 +101,7 @@ class Api_PushNovatech extends PhalApi_Api
 			$success=true;
 		}else{
 			$success=false;
-			$msg=$rs;
+			$msg=$rs['message'].' '.$rs['info'];
 		}
 		Common_Lib::report('PushNovatech','location_upload',$success,$code,$msg );
 		

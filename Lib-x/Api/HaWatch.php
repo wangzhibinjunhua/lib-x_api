@@ -99,7 +99,7 @@ class Api_HaWatch extends PhalApi_Api
 			$success=true;
 		}else{
 			$success=false;
-			$msg=$rs;
+			$msg=$rs['message'].' '.$rs['info'];
 		}
 		Common_Lib::report('HaWatch','get_health_data',$success,$code,$msg );
 		return $rs;
@@ -123,7 +123,7 @@ class Api_HaWatch extends PhalApi_Api
 			$success=true;
 		}else{
 			$success=false;
-			$msg=$rs;
+			$msg=$rs['message'].' '.$rs['info'];
 		}
 		Common_Lib::report('HaWatch','unbind_watch',$success,$code,$msg );
 		return $rs;
@@ -536,7 +536,7 @@ class Api_HaWatch extends PhalApi_Api
 			$success=true;
 		}else{
 			$success=false;
-			$msg=$rs;
+			$msg=$rs['message'].' '.$rs['info'];
 		}
 		Common_Lib::report('HaWatch','get_day_location',$success,$code,$msg );
 		return $rs;
@@ -566,7 +566,7 @@ class Api_HaWatch extends PhalApi_Api
 		$success=true;
 	}else{
 		$success=false;
-		$msg=$rs;
+		$msg=$rs['message'].' '.$rs['info'];
 	}
 	Common_Lib::report('HaWatch','get_lastest_location',$success,$code,$msg );
 		return $rs;
