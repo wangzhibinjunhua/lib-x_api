@@ -49,4 +49,13 @@ public static function delArrayItems($paramArr, $keyStr)
 	return $paramArr;
 }
 
+//监控模块
+public static function report($c,$m,$success=true,$code=0,$msg='')
+{
+	//统计模块
+	Common_StatisticClient::tick($c, $m);
+	Common_StatisticClient::report($c, $m, $success, $code, $msg);
+	
+}
+
 }

@@ -41,8 +41,17 @@ class Api_PushNovatech extends PhalApi_Api
 			$rs=$model->get_day_location($this->imei,$this->date);
 		}else{
 			
-			return array('code'=> 2,'message'=>'日期参数错误','info'=>'');
+			$rs= array('code'=> 2,'message'=>'日期参数错误','info'=>'');
 		}
+		
+		$code=$rs['code']+1000;$success=true;$msg='';
+		if($code==1000){
+			$success=true;
+		}else{
+			$success=false;
+			$msg=$rs;
+		}
+		Common_Lib::report('PushNovatech','get_day_location',$success,$code,$msg );
 	
 		return $rs;
 	}
@@ -59,6 +68,16 @@ class Api_PushNovatech extends PhalApi_Api
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$model=new Model_PushNovatech();
 		$rs=$model->get_lastest_location($this->imei);
+		
+		$code=$rs['code']+1000;$success=true;$msg='';
+		if($code==1000){
+			$success=true;
+		}else{
+			$success=false;
+			$msg=$rs;
+		}
+		Common_Lib::report('PushNovatech','get_lastest_location',$success,$code,$msg );
+		
 		return $rs;
 	}
 	
@@ -76,6 +95,16 @@ class Api_PushNovatech extends PhalApi_Api
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$model=new Model_PushNovatech();
 		$rs=$model->location_upload($this->imei,$this->time,$this->lon,$this->lat,$this->location);
+		
+		$code=$rs['code']+1000;$success=true;$msg='';
+		if($code==1000){
+			$success=true;
+		}else{
+			$success=false;
+			$msg=$rs;
+		}
+		Common_Lib::report('PushNovatech','location_upload',$success,$code,$msg );
+		
 		return $rs;
 	}
 	

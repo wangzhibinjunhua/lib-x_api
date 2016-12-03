@@ -75,7 +75,9 @@ class Api_HaWatch extends PhalApi_Api
 		);
 
 	}
-
+	
+	
+	
 
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
@@ -91,6 +93,15 @@ class Api_HaWatch extends PhalApi_Api
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$model=new Model_HaWatch();
 		$rs=$model->get_health_data($this->imei,$this->type,$this->list);
+		
+		$code=$rs['code']+1000;$success=true;$msg='';
+		if($code==1000){
+			$success=true;
+		}else{
+			$success=false;
+			$msg=$rs;
+		}
+		Common_Lib::report('HaWatch','get_health_data',$success,$code,$msg );
 		return $rs;
 	}
 
@@ -106,7 +117,15 @@ class Api_HaWatch extends PhalApi_Api
 		$list=$model->unbind_watch($this->imei,$this->user_id);
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(empty($list)) $rs['code']=1;
-
+		
+		$code=$rs['code']+1000;$success=true;$msg='';
+		if($code==1000){
+			$success=true;
+		}else{
+			$success=false;
+			$msg=$rs;
+		}
+		Common_Lib::report('HaWatch','unbind_watch',$success,$code,$msg );
 		return $rs;
 	}
 
@@ -511,6 +530,15 @@ class Api_HaWatch extends PhalApi_Api
 		}else{
 			$rs['code']=2;
 		}
+
+		$code=$rs['code']+1000;$success=true;$msg='';
+		if($code==1000){
+			$success=true;
+		}else{
+			$success=false;
+			$msg=$rs;
+		}
+		Common_Lib::report('HaWatch','get_day_location',$success,$code,$msg );
 		return $rs;
 	}
 
@@ -532,6 +560,15 @@ class Api_HaWatch extends PhalApi_Api
 // 			$rs['code']=0;
 // 			$rs['message']=$lastest_location;
 // 		}
+
+	$code=$rs['code']+1000;$success=true;$msg='';
+	if($code==1000){
+		$success=true;
+	}else{
+		$success=false;
+		$msg=$rs;
+	}
+	Common_Lib::report('HaWatch','get_lastest_location',$success,$code,$msg );
 		return $rs;
 	}
 
