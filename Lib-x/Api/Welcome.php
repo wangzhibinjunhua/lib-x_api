@@ -4,7 +4,7 @@
 *author wzb<wzb@lib-x.com>
 */
 //sign
-DI()->filter = 'PhalApi_Filter_SimpleMD5';
+//DI()->filter = 'PhalApi_Filter_SimpleMD5';
 //###########################
 class Api_Welcome extends PhalApi_Api
 {
@@ -22,6 +22,13 @@ class Api_Welcome extends PhalApi_Api
 				'b'=>array('name' => 'b'),
 				),
 			);
+	}
+	
+	public function get_watch_online_count()
+	{
+		Common_GatewayClient::$registerAddress = '127.0.0.1:1330';
+		$count=Common_GatewayClient::getClientCountByGroup('watch_g1');
+		return $count;
 	}
 
 	public function hello()
