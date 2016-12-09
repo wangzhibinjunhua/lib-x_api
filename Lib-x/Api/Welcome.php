@@ -28,7 +28,7 @@ class Api_Welcome extends PhalApi_Api
 	{
 		Common_GatewayClient::$registerAddress = '127.0.0.1:1330';
 		$count=Common_GatewayClient::getClientCountByGroup('watch_g1');
-		return $count;
+		return '手表在线数量: '.$count;
 	}
 
 	public function hello()
