@@ -31,8 +31,8 @@ class Api_Welcome extends PhalApi_Api
 		$app_count=Common_GatewayClient::getClientCountByGroup('app_g1');
 		$debug_count=Common_GatewayClient::getClientCountByGroup('debug1');
 		$all_count=Common_GatewayClient::getAllClientCount();
-		return '手表在线数量: '.$count.' ; app在线数据: '+$app_count.'  ;web在线数量: '+$debug_count+
-				'  ;总在线数量: '+$all_count;
+		return '手表在线数量: '.$count.' ; app在线数据: '.$app_count.'  ;web在线数量: '.$debug_count.
+				'  ;总在线数量: '.$all_count;
 	}
 
 	public function hello()
