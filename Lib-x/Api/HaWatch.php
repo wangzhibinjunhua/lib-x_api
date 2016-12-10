@@ -18,7 +18,29 @@ class Api_HaWatch extends PhalApi_Api
 	//通信协议 手表厂商名称
 	const CS_NAME='HA*';
 
-
+	//操作手表的api版本
+	const API_VERSION=1.0;
+	//const API_VERSION=2.0;
+	const SOCKET_CLIENT_ID='10101011';
+	//cmd
+	const API_IS_ONLINE=1001;
+	const API_SET_UPLODE_MODE=1002;
+	const API_MONITOR=1003;
+	const API_SET_SOS_NUMBER=1004;
+	const API_RESET=1005;
+	const API_REBOOT=1006;
+	const API_REQ_LOCATION=1007;
+	const API_SHUTDOWN=1008;
+	const API_FIND_DEV=1009;
+	const API_SET_ALARM=1100;
+	const API_SET_CONTACT_A=1101;
+	const API_SET_CONTACT_B=1102;
+	const API_SEND_MSG=1103;
+	const API_ADD_HONOR=1104;
+	const API_CLEAR_HONOR=1105;
+	const API_SET_SILENCE=1106;
+	const API_REMOTE_PHOTO=1107;
+	
 	public function getRules()
 	{
 		return array(
@@ -504,13 +526,42 @@ class Api_HaWatch extends PhalApi_Api
 	public function is_online()
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
-		Common_GatewayClient::$registerAddress = '127.0.0.1:1330';
-		if(Common_GatewayClient::isUidOnline($this->imei)){
-			$rs['message']=1;
-		}else{
-			$rs['message']=0;
+		
+		if(self::API_VERSION === 2.0){
+			$r=self::socket_client($this->imei, self::API_IS_ONLINE);
+			if($r==1){
+				return array('code'=> 1,'message'=>'online','info'=>'');
+			}else{
+				
+				return array('code'=> 1,'message'=>'offline','info'=>'');
+			}
+		}else {
+			Common_GatewayClient::$registerAddress = '127.0.0.1:1330';
+			if(Common_GatewayClient::isUidOnline($this->imei)){
+				$rs['message']=1;
+			}else{
+				$rs['message']=0;
+			}
 		}
 		return $rs;
+	}
+	
+	/**
+	* @author wzb<wangzhibin_x@foxmail.com>
+	* @date Dec 9, 2016 5:15:42 PM
+	* socket 访问
+	*/
+	public static function socket_client($imei,$info,$addr='tcp://120.76.47.120:10002')
+	{
+		$client=stream_socket_client($addr);
+		if(!$client) return false;
+		$msg=array('id'=>self::SOCKET_CLIENT_ID,'cmd'=>'API','imei'=>$imei,'info'=>$info);
+		fwrite($client, Common_GatewayPack::pack_data($msg));
+		$r=fread($client,8);
+		fclose($client);
+		return $r;
+		
+		
 	}
 
 
