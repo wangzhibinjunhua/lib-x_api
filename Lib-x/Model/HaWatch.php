@@ -123,7 +123,8 @@ class Model_HaWatch extends PhalApi_Model_NotORM {
 
 		$data = array (
 				'watch_imei' => $imei,
-				'app_id' => $user_id
+				'app_id' => $user_id,
+				'create_time'=>date("Y-m-d H:m:s")
 		);
 		$rs = $this->getORM ( 'ha_watch' )->insert ( $data );
 		return $rs;
