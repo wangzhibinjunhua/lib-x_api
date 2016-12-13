@@ -7,7 +7,7 @@
 */
 
 //sign
-DI()->filter = 'PhalApi_Filter_SimpleMD5';
+//DI()->filter = 'PhalApi_Filter_SimpleMD5';
 Common_GatewayClient::$registerAddress = '127.0.0.1:1330';
 //###########################
 class Api_HaWatch extends PhalApi_Api
@@ -19,8 +19,8 @@ class Api_HaWatch extends PhalApi_Api
 	const CS_NAME='HA*';
 
 	//操作手表的api版本
-	const API_VERSION=1.0;
-	//const API_VERSION=2.0;
+	//const API_VERSION=1.0;
+	const API_VERSION=2.0;
 	const SOCKET_CLIENT_ID='10101011';
 	//cmd
 	const API_IS_ONLINE=1001;
@@ -40,7 +40,7 @@ class Api_HaWatch extends PhalApi_Api
 	const API_CLEAR_HONOR=1105;
 	const API_SET_SILENCE=1106;
 	const API_REMOTE_PHOTO=1107;
-	
+
 	public function getRules()
 	{
 		return array(
@@ -97,9 +97,9 @@ class Api_HaWatch extends PhalApi_Api
 		);
 
 	}
-	
-	
-	
+
+
+
 
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
@@ -115,7 +115,7 @@ class Api_HaWatch extends PhalApi_Api
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		$model=new Model_HaWatch();
 		$rs=$model->get_health_data($this->imei,$this->type,$this->list);
-		
+
 		$code=$rs['code']+1000;$success=true;$msg='';
 		if($code==1000){
 			$success=true;
@@ -139,7 +139,7 @@ class Api_HaWatch extends PhalApi_Api
 		$list=$model->unbind_watch($this->imei,$this->user_id);
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
 		if(empty($list)) $rs['code']=1;
-		
+
 		$code=$rs['code']+1000;$success=true;$msg='';
 		if($code==1000){
 			$success=true;
@@ -526,14 +526,14 @@ class Api_HaWatch extends PhalApi_Api
 	public function is_online()
 	{
 		$rs=array('code'=> 0,'message'=>'','info'=>'');
-		
+
 		if(self::API_VERSION === 2.0){
 			$r=self::socket_client($this->imei, self::API_IS_ONLINE);
 			if($r==1){
-				return array('code'=> 1,'message'=>'online','info'=>'');
+				return array('code'=> 0,'message'=>'1','info'=>'online');
 			}else{
-				
-				return array('code'=> 1,'message'=>'offline','info'=>'');
+
+				return array('code'=> 0,'message'=>'0','info'=>'offline');
 			}
 		}else {
 			Common_GatewayClient::$registerAddress = '127.0.0.1:1330';
@@ -545,7 +545,7 @@ class Api_HaWatch extends PhalApi_Api
 		}
 		return $rs;
 	}
-	
+
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Dec 9, 2016 5:15:42 PM
@@ -556,12 +556,13 @@ class Api_HaWatch extends PhalApi_Api
 		$client=stream_socket_client($addr);
 		if(!$client) return false;
 		$msg=array('id'=>self::SOCKET_CLIENT_ID,'cmd'=>'API','imei'=>$imei,'info'=>$info);
-		fwrite($client, Common_GatewayPack::pack_data($msg));
+		fwrite($client, Common_GatewayPack::pack_data(json_encode($msg)));
+		stream_set_timeout($client,10);
 		$r=fread($client,8);
 		fclose($client);
 		return $r;
-		
-		
+
+
 	}
 
 
