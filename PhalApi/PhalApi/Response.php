@@ -88,7 +88,7 @@ abstract class PhalApi_Response {
     }
     
     /** ------------------ getter ------------------ **/
-    
+   /* 
     public function getResult() {
         $rs = array(
             'ret' => $this->ret,
@@ -97,6 +97,20 @@ abstract class PhalApi_Response {
         );
 
         return $rs;
+    }*/
+    //modfiy by wzb 
+    public function getResult($type=0) {
+    	$rs = array(
+    			'ret' => $this->ret,
+    			'data' => $this->data,
+    			'msg' => $this->msg,
+    	);
+    	
+    	if($type==1){
+    		return $this->data;
+    	}else{
+    		return $rs;
+    	}
     }
 
 	/**

@@ -1,5 +1,5 @@
 <?php
-DI()->response = 'PhalApi_Response_MyJson';//myresponse
+DI()->response->getResult(1);
 class Api_SipTest extends PhalApi_Api
 {
 	
@@ -21,6 +21,7 @@ class Api_SipTest extends PhalApi_Api
 	
 	public function login()
 	{
+
 		$rs=array('code'=> 0,'message'=>'Login Failed','info'=>'');
 		if($this->username=='admin' && $this->password == 'admin'){
 			$rs['code']=1;
