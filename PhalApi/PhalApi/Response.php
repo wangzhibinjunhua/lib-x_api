@@ -32,6 +32,8 @@ abstract class PhalApi_Response {
      * @var array $headers 响应报文头部
      */
     protected $headers = array();
+    
+    protected $type=0;
 
     /** ------------------ setter ------------------ **/
 
@@ -99,18 +101,23 @@ abstract class PhalApi_Response {
         return $rs;
     }*/
     //modfiy by wzb 
-    public function getResult($type=0) {
+    public function getResult() {
     	$rs = array(
     			'ret' => $this->ret,
     			'data' => $this->data,
     			'msg' => $this->msg,
     	);
     	
-    	if($type==1){
+    	if($this->$type==1){
     		return $this->data;
     	}else{
     		return $rs;
     	}
+    }
+    
+    public function setResType($type) {
+    	$this->$type = $type;
+    	return $this;
     }
 
 	/**

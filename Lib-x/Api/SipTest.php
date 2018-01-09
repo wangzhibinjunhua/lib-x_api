@@ -1,5 +1,5 @@
 <?php
-DI()->response->getResult(1);
+DI()->response->setResType(1);
 class Api_SipTest extends PhalApi_Api
 {
 	
