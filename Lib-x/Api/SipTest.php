@@ -1,5 +1,5 @@
 <?php
-DI()->response = 'PhalApi_MyResponse';//myresponse
+DI()->response = 'PhalApi_Response_MyJson';//myresponse
 class Api_SipTest extends PhalApi_Api
 {
 	
