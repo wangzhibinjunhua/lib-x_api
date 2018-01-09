@@ -108,7 +108,7 @@ abstract class PhalApi_Response {
     			'msg' => $this->msg,
     	);
     	
-    	if($this->$type==1){
+    	if($this->type==1){
     		return $this->data;
     	}else{
     		return $rs;
@@ -116,7 +116,7 @@ abstract class PhalApi_Response {
     }
     
     public function setResType($type) {
-    	$this->$type = $type;
+    	$this->type = $type;
     	return $this;
     }
 
