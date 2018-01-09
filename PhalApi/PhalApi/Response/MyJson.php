@@ -8,7 +8,7 @@
  * @author      dogstar <chanzonghuang@gmail.com> 2015-02-09
  */
 
-class PhalApi_Response_MyJson extends PhalApi_MyResponse {
+class PhalApi_Response_MyJson extends PhalApi_Response {
 
     public function __construct() {
     	$this->addHeaders('Content-Type', 'application/json;charset=utf-8');
@@ -16,7 +16,7 @@ class PhalApi_Response_MyJson extends PhalApi_MyResponse {
 
     protected function formatResult($result) {
         //return json_encode($result);
-        return json_encode($result,JSON_UNESCAPED_UNICODE);//modify by wzb 20160707
+        return json_encode($result['data'],JSON_UNESCAPED_UNICODE);//modify by wzb 20160707
     }
 
 }
