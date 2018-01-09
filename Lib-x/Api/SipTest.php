@@ -37,6 +37,28 @@ class Api_SipTest extends PhalApi_Api {
 								'require' => true
 						)
 				),
+				'setSipInfo' => array (
+						'username' => array (
+								'name' => 'username',
+								'require' => true
+						),
+						'password' => array (
+								'name' => 'password',
+								'require' => true
+						),
+						'enable' => array (
+								'name' => 'enable',
+								'require' => true
+						),
+						'server' => array (
+								'name' => 'server',
+								'require' => true
+						),
+						'port' => array (
+								'name' => 'port',
+								'require' => true
+						)
+				),
 				'register' => array (
 						'mobile' => array (
 								'name' => 'mobile',
@@ -116,6 +138,28 @@ class Api_SipTest extends PhalApi_Api {
 	
 	public function getSipInfo()
 	{
+
+		$rs = array (
+				'code' => 1,
+				'status' => '已注册',
+				'username' => '722563',
+				'password'=>'123456',
+				'enable'=>'1',
+				'server'=>'sip.stelcom.cn',
+				'port'=>'5060'
+						
+		);
+		return $rs;
+	}
+	
+	public function setSipInfo()
+	{
+		$rs = array (
+				'code' => 1,
+				'message' => 'set ok',
+				'info' => ''
+		);
+		return $rs;
 		
 	}
 	
