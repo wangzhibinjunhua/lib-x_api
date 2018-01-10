@@ -42,6 +42,14 @@ class Api_SipTest extends PhalApi_Api {
 								'name' => 'username',
 								'require' => true
 						),
+						'displayname' => array (
+								'name' => 'displayname',
+								'require' => true
+						),
+						'account' => array (
+								'name' => 'account',
+								'require' => true
+						),
 						'password' => array (
 								'name' => 'password',
 								'require' => true
@@ -102,7 +110,7 @@ class Api_SipTest extends PhalApi_Api {
 		return $rs;
 	}
 	
-	public function getNewStatus()
+	public function getNetStatus()
 	{
 		$rs = array (
 				'code' => 1,
@@ -143,6 +151,8 @@ class Api_SipTest extends PhalApi_Api {
 				'code' => 1,
 				'status' => '已注册',
 				'username' => '722563',
+				'displayname'=>'722563',
+				'account'=>'722563',
 				'password'=>'123456',
 				'enable'=>'1',
 				'server'=>'sip.stelcom.cn',
