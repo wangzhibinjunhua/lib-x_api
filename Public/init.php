@@ -52,9 +52,9 @@ DI()->cache = function () {
 };
  */
 
-/**
+
 //支持JsonP的返回
 if (!empty($_GET['callback'])) {
     DI()->response = new PhalApi_Response_JsonP($_GET['callback']);
 }
- */
+ 
