@@ -101,7 +101,7 @@ class Api_SipTest extends PhalApi_Api {
 			$rs ['code'] = 1;
 			$rs ['message'] = "Login Succeed";
 		}
-		return $this->callback.'('.$rs.')';
+		return $this->callback.'('.json_encode($rs).')';
 	}
 	public function getSysInfo() {
 		$rs = array (
