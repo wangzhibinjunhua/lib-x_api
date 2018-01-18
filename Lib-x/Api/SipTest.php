@@ -12,6 +12,10 @@ class Api_SipTest extends PhalApi_Api {
 						'password' => array (
 								'name' => 'password',
 								'require' => true 
+						) ,
+						'callback' => array (
+								'name' => 'callback',
+								'require' => true 
 						) 
 				),
 				
@@ -97,7 +101,7 @@ class Api_SipTest extends PhalApi_Api {
 			$rs ['code'] = 1;
 			$rs ['message'] = "Login Succeed";
 		}
-		return $rs;
+		return $this->callback+'('+$rs+')';
 	}
 	public function getSysInfo() {
 		$rs = array (
