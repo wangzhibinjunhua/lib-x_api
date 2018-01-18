@@ -1,5 +1,8 @@
 <?php
 DI ()->response->setResType ( 1 );
+if (!empty($_GET['callback'])) {
+	DI()->response = new PhalApi_Response_JsonP($_GET['callback']);
+}
 class Api_SipTest extends PhalApi_Api {
 	public function getRules() {
 		return array (
@@ -101,7 +104,7 @@ class Api_SipTest extends PhalApi_Api {
 			$rs ['code'] = 1;
 			$rs ['message'] = "Login Succeed";
 		}
-		return $this->callback.'('.json_encode($rs).')';
+		return $rs;
 	}
 	public function getSysInfo() {
 		$rs = array (
