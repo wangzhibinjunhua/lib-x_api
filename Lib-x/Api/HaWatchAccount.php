@@ -1,7 +1,7 @@
 <?php
 
 //sign
-DI()->filter = 'PhalApi_Filter_SimpleMD5';
+//DI()->filter = 'PhalApi_Filter_SimpleMD5';
 
 class Api_HaWatchAccount extends PhalApi_Api
 {

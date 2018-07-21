@@ -7,7 +7,7 @@
 */
 
 //sign
-DI()->filter = 'PhalApi_Filter_SimpleMD5';
+//DI()->filter = 'PhalApi_Filter_SimpleMD5';
 Common_GatewayClient::$registerAddress = '127.0.0.1:1238';
 //###########################
 class Api_Watch extends PhalApi_Api

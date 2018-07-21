@@ -4,6 +4,35 @@ class Model_Account extends PhalApi_Model_NotORM
 
 	
 	
+	public function login($mobile,$password)
+	{
+		$where['mobile']=$mobile;
+		$where['password']=strtoupper(md5($password));
+
+		$userinfo=$this->getORM('watch','app_user')
+					   ->where($where)
+					   ->fetchOne();
+		$userinfo=Common_Lib::delArrayItems($userinfo,'id,password,vkey,token,hid,app_sn,create_time,status');
+		if($userinfo){
+			if($userinfo['status']==2){
+				return array('code'=>9,'message'=>'帐号被锁定','info'=>'');
+			}
+			//生成登录状态票据
+			$data['token'] = Common_Lib::getuuid();//session_id()
+			$where['mobile'] = $mobile;
+			$r = $this->getORM('watch','app_user')
+					   ->where($where)
+					   ->update($data);
+
+			if(!$r){
+				return array('code'=>3,'message'=>'登录失败','info'=>'');
+			}
+			$userinfo['token'] = $data['token'];
+			return array('code'=>0,'message'=>$userinfo,'info'=>'');
+		}else{
+			return array('code'=>2,'message'=>'登录失败','info'=>'');
+		}
+	}
 	/**
 	* @author wzb<wangzhibin_x@foxmail.com>
 	* @date Oct 28, 2016 3:41:03 PM
@@ -13,7 +42,7 @@ class Model_Account extends PhalApi_Model_NotORM
 	{
 		$user=$this->getORM('watch','app_user')
 				   ->select('mobile')
-				   ->where('mobile=?',$moblie)
+				   ->where('mobile=?',$mobile)
 				   ->where('status>?',0)
 				   ->fetchOne('mobile');
 		if($user){
